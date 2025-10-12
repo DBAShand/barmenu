@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🍽️ Little Bits Diner🍽️ </title>
+  <link rel="stylesheet" href="/static/restaurant.css">
+</head>
+<body>
+  <div class="menu-board">
+    <h1>🍽️ Welcome to Little Bites Diner 🍽️</h1>
+
+    <section id="Appetizer">
+      <h2>Appetizers</h2>
+      <ul id="appetizers"></ul>
+    </section>
+
+    <section id="Entree">
+      <h2>Entrees</h2>
+      <ul id="entrees"></ul>
+    </section>
+
+    <section id="Dessert">
+      <h2>Desserts</h2>
+      <ul id="desserts"></ul>
+    </section>
+
+    <section id="Drink">
+      <h2>Drinks</h2>
+      <ul id="drinks"></ul>
+    </section>
+  </div>
+
+  <script>
+    async function load() {
+      const res = await fetch('/api/restaurant');
+      const items = await res.json();
+
+      const cats = { Appetizer: [], Entree: [], Dessert: [], Drink: [] };
+
+      for (const i of items) {
+        const line = `<li><strong>${i.name}</strong> — $${i.price.toFixed(2)}<br><em>${i.description}</em></li>`;
+        cats[i.category]?.push(line);
+      }
+
+      document.getElementById('appetizers').innerHTML = cats.Appetizer.join('');
+      document.getElementById('entrees').innerHTML = cats.Entree.join('');
+      document.getElementById('desserts').innerHTML = cats.Dessert.join('');
+      document.getElementById('drinks').innerHTML = cats.Drink.join('');
+    }
+    load();
+  </script>
+</body>
+</html>

@@ -22,13 +22,30 @@ def spirits_api():
 def cocktails_api():
     return jsonify(query_db('SELECT name, base, style, abv FROM cocktails WHERE active=1 ORDER BY name'))
 
+@app.route('/api/restaurant')
+def api_restaurant():
+    return jsonify(query_db(
+        'SELECT name, category, description, price FROM restaurant WHERE active=1 ORDER BY category, name'
+    ))
+
 @app.route('/')
 def home():
     return render_template_string("""
-    <html>
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <title>MizzouGlenn’s Tavern</title>
+        <link rel="stylesheet" href="/static/chalk.css">
+      </head>
       <body style='font-family:sans-serif;text-align:center;margin-top:30vh;'>
         <h1>MizzouGlenn’s Tavern</h1>
-        <p><a href="/beer">Beer on Tap</a> | <a href="/spirits">House Spirits</a></p>
+        <p class="nav">
+          <a href="/beer">Beer on Tap</a> |
+          <a href="/spirits">House Spirits</a> |
+          <a href="/cocktails">House Cocktails</a> |
+          <a href="/seasonal">Seasonal Menu</a>
+        </p>
       </body>
     </html>
     """)
@@ -49,9 +66,20 @@ def cocktails_page():
 def seasonal_page():
     return app.send_static_file('seasonal.html')
 
+@app.route('/restaurant')
+def restaurant_page():
+    return app.send_static_file('restaurant.html')
+
 @app.route('/display')
 def display_page():
     return app.send_static_file('display.html')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    import sys
+    port = 5000
+    if '--port' in sys.argv:
+        try:
+            port = int(sys.argv[sys.argv.index('--port') + 1])
+        except (IndexError, ValueError):
+            pass
+    app.run(host='0.0.0.0', port=port)
