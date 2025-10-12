@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>🍺 Beer on Tap – MizzouGlenn’s Tavern</title>
+<link rel="stylesheet" href="/static/chalk.css">
+</head>
+<body>
+  <div class="board">
+    <h1 class="title">🍺 Beer on Tap</h1>
+    <ul id="beer"></ul>
+    <div class="footer">Good Drinks. Good Company.</div>
+  </div>
+
+  <script>
+  async function load(){
+    const res = await fetch('/api/beer');
+    const beers = await res.json();
+    document.getElementById('beer').innerHTML = beers.map(b =>
+      `<li><span class="drink">${b.name}</span><span class="meta">${b.abv.toFixed(1)}% • ${b.style}</span></li>`
+    ).join('');
+  }
+  load();
+  </script>
+</body>
+</html>

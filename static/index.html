@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MizzouGlenn’s Tavern</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1 id="title">🍺 Beer on Tap</h1>
+<div id="list"></div>
+<script>
+const views = [
+  {title:"🍺 Beer on Tap", url:"/api/beer"},
+  {title:"🥃 House Spirits", url:"/api/spirits"}
+];
+let i=0;
+async function load(){
+  const v=views[i];
+  document.getElementById('title').textContent=v.title;
+  const res=await fetch(v.url);
+  const data=await res.json();
+  const list=data.map(item=>{
+    return v.url.includes('beer')
+      ? `${item.name} – ${item.abv.toFixed(1)} % (${item.style})`
+      : `${item.name} – ${item.type} (${item.origin})`;
+  }).join('<br>');
+  document.getElementById('list').innerHTML=list;
+  i=(i+1)%views.length;
+  setTimeout(load,15000);
+}
+load();
+</script>
+</body>
+</html>

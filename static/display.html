@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MizzouGlenn’s Tavern Display</title>
+<link rel="stylesheet" href="chalk.css">
+<style>
+  iframe {
+    width: 100vw;
+    height: 100vh;
+    border: none;
+    transition: opacity 1s ease-in-out;
+  }
+  .fade-out { opacity: 0; }
+  .fade-in  { opacity: 1; }
+</style>
+</head>
+<body>
+  <iframe id="display" src="/beer"></iframe>
+
+  <script>
+    const pages = ["/beer", "/spirits","/cocktails","/seasonal"];
+    let index = 0;
+    const frame = document.getElementById("display");
+
+    function rotate() {
+      frame.classList.add("fade-out");
+      setTimeout(() => {
+        index = (index + 1) % pages.length;
+        frame.src = pages[index];
+        frame.classList.remove("fade-out");
+        frame.classList.add("fade-in");
+      }, 1000); // fade duration
+    }
+
+    setInterval(rotate, 15000); // 15-second rotation
+  </script>
+</body>
+</html>

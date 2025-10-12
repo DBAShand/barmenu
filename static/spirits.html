@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>🥃 Spirits – MizzouGlenn’s Tavern</title>
+<link rel="stylesheet" href="/static/chalk.css">
+</head>
+<body>
+  <div class="board">
+    <h1 class="title">🥃 House Spirits</h1>
+    <ul id="spirits"></ul>
+    <div class="footer">Good Drinks. Good Company.</div>
+  </div>
+
+  <script>
+  async function load(){
+    const res = await fetch('/api/spirits');
+    const spirits = await res.json();
+    document.getElementById('spirits').innerHTML = spirits.map(s =>
+      `<li><span class="drink">${s.name}</span><span class="meta">${s.type} • ${s.origin}</span></li>`
+    ).join('');
+  }
+  load();
+  </script>
+</body>
+</html>

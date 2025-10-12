@@ -1,0 +1,93 @@
+/* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Shadows+Into+Light&display=swap');
+
+/* Base layout */
+body {
+  margin: 0;
+  background: #111;
+  color: #f8f4e3;
+  font-family: 'Patrick Hand', cursive;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Board container */
+.board {
+  background: #222;
+  border: 6px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 0 40px rgba(255,255,255,0.05) inset;
+  padding: 40px;
+  width: 90%;
+  max-width: 1000px;
+  height: 85vh;
+  background-image: radial-gradient(circle at top left, #333 0%, #222 100%);
+  color: #f8f4e3;
+  text-shadow: 0 0 1px #fff, 0 0 3px rgba(255,255,255,0.4);
+  overflow-y: auto;
+}
+
+/* Title */
+.title {
+  text-align: center;
+  font-size: 3.5em;
+  margin-bottom: 20px;
+  color: #ffd700;
+  font-family: 'Shadows Into Light', cursive;
+  text-shadow: 0 0 8px rgba(255,215,0,0.5);
+}
+
+/* List layout */
+ul {
+  list-style: none;
+  padding: 0;
+  font-size: 1.8em;
+  line-height: 1.5em;
+  text-align: left;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 1px dashed rgba(255,255,255,0.1);
+  padding: 4px 0;
+}
+
+.drink {
+  color: #fff;
+  flex: 1;
+  padding-right: 20px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.meta {
+  font-size: 0.8em;
+  color: #ccc;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  font-size: 2em;
+  color: #ffd700;
+  margin-top: 40px;
+  font-family: 'Shadows Into Light', cursive;
+  text-shadow: 0 0 8px rgba(255,215,0,0.5);
+}
+
+/* Optional smooth fade-in animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+li {
+  animation: fadeIn 0.8s ease forwards;
+}

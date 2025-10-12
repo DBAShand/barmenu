@@ -1,0 +1,14 @@
+body {
+  margin:0;
+  background:black;
+  color:gold;
+  font-family:'Trebuchet MS',sans-serif;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  text-align:center;
+}
+h1 {font-size:3em;margin-bottom:0.5em;}
+#list {font-size:2em;line-height:1.6;}
