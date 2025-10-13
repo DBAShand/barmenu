@@ -1,5 +1,52 @@
-venv/
+# === Python ===
 __pycache__/
-*.pyc
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# === Virtual Environments ===
+venv/
+.env/
+.venv/
+
+# === SQLite & Local Databases ===
 menu.db
+*.sqlite3
+*.db
+*.db-journal
+
+# === Logs & Temporary Files ===
+*.log
+*.tmp
+*.bak
+*.swp
+holding.txt
+
+# === OS & Editor Noise ===
 .DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# === Deployment & System Files ===
+barmenu.service
+*.pid
+*.socket
+
+# === Build / Packaging (future-proofing) ===
+build/
+dist/
+*.egg-info/
+
+# === Node (if ever added) ===
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# === Scripts Folder Rules ===
+# keep your working scripts but ignore transient files
+Script/__pycache__/
+Script/*.log
+Script/*.tmp
+Script/*.bak
