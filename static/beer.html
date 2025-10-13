@@ -14,11 +14,15 @@
 
   <script>
   async function load(){
-    const res = await fetch('/api/beer');
-    const beers = await res.json();
-    document.getElementById('beer').innerHTML = beers.map(b =>
-      `<li><span class="drink">${b.name}</span><span class="meta">${b.abv.toFixed(1)}% • ${b.style}</span></li>`
-    ).join('');
+    try {
+      const res = await fetch('/api/beer');
+      const beers = await res.json();
+      document.getElementById('beer').innerHTML = beers.map(b =>
+        `<li><span class="drink">${b.name}</span><span class="meta">${b.abv.toFixed(1)}% • ${b.style}</span></li>`
+      ).join('');
+    } catch(err) {
+      document.getElementById('beer').innerHTML = "<li>Error loading beer list</li>";
+    }
   }
   load();
   </script>

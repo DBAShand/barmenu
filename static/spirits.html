@@ -2,25 +2,68 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>🥃 Spirits – MizzouGlenn’s Tavern</title>
+<title>🥃 House Spirits – MizzouGlenn’s Tavern</title>
 <link rel="stylesheet" href="/static/chalk.css">
 </head>
 <body>
   <div class="board">
-    <h1 class="title">🥃 House Spirits</h1>
+    <h1 class="title" id="group-name">Loading...</h1>
     <ul id="spirits"></ul>
     <div class="footer">Good Drinks. Good Company.</div>
   </div>
 
   <script>
-  async function load(){
-    const res = await fetch('/api/spirits');
-    const spirits = await res.json();
-    document.getElementById('spirits').innerHTML = spirits.map(s =>
-      `<li><span class="drink">${s.name}</span><span class="meta">${s.type} • ${s.origin}</span></li>`
+  // --- Updated spirit groups ---
+  const groups = {
+    "🥃 Bourbon": ["bourbon"],
+    "🥨 Rye Whiskey": ["rye"],
+    "🥃 Scotch / Whiskey": ["scotch", "whiskey"],
+    "🍸 Gin": ["gin"],
+    "🍸 Vodka": ["vodka"],
+    "🏝 Rum": ["rum"],
+    "🍬 Liqueurs & Cordials": ["liqueur", "cordial"],
+    "🌶 Tequila / Mezcal": ["tequila", "mezcal"],
+    "🇫🇷 Aperitifs / Absinthe": ["aperitif", "absinthe"]
+  };
+
+  // get ?group= from URL (default to Bourbon if none)
+  const params = new URLSearchParams(window.location.search);
+  const groupParam = params.get("group") || "🥃 Bourbon";
+
+  let spiritsData = [];
+
+  async function loadSpirits() {
+    try {
+      const res = await fetch('/api/spirits');
+      spiritsData = await res.json();
+      showGroup(groupParam);
+    } catch (err) {
+      document.getElementById('group-name').textContent = 'Error loading spirits';
+    }
+  }
+
+  function showGroup(groupName) {
+    const types = groups[groupName];
+    document.getElementById('group-name').textContent = groupName;
+
+    if (!types) {
+      document.getElementById('spirits').innerHTML = `<li>Unknown group</li>`;
+      return;
+    }
+
+    const filtered = spiritsData.filter(s =>
+      types.some(t => s.type.toLowerCase().includes(t))
+    );
+
+    filtered.sort((a, b) => a.name.localeCompare(b.name));
+
+    const list = document.getElementById('spirits');
+    list.innerHTML = filtered.map(s =>
+      `<li><span class="drink">${s.name}</span><span class="meta">${s.origin || ''}</span></li>`
     ).join('');
   }
-  load();
+
+  loadSpirits();
   </script>
 </body>
 </html>

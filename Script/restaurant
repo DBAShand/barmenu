@@ -1,0 +1,29 @@
+INSERT INTO restaurant (name, category, description, price) VALUES
+('Garlic Breadsticks', 'Appetizer', 'Served warm with marinara.', 4.50),
+('Fried Pickles', 'Appetizer', 'Served  with choice of dipping sauce', 4.50),
+('House Salad', 'Appetizer', 'Served warm with choice of dressing', 4.50),
+('Pulled Pork Nachos', 'Appetizer', 'Slow Smoked Pulled Pork on House Made Tortilla Chips', 9.50),
+
+
+('Pizza', 'Entree', 'Toppings: Cheese, Sausage, Pepperoni, Pineapple, Ham', 15.00),
+('Pasta', 'Entree', 'Alfrado,Butter,Red Sauce', 15.00),
+('1/3 LB Angus Burger', 'Entree', 'Servered with Cheese, Bacon, Lettuce, Pickle, and Catchup with Fries', 15.00),
+('4 White Meat Chicken Fingers', 'Entree', 'with choice of dipping sauce with fries', 15.00),
+('Corndog', 'Entree', 'with fries', 7.50),
+
+('Ice Cream', 'Dessert', 'Flavors: Chocolate, Vanilla', 5.00),
+('Beignets', 'Dessert', 'Sauce: Caramel or Chocloate', 5.00),
+('4 Chocolate Chip Cookies', 'Dessert', 'Served Warm and Gooey', 5.00),
+('Cake', 'Dessert', 'Chocolate, Vanilla', 5.00),
+('Tea', 'Drink', '', 2.50),
+('Lemonade', 'Drink', '', 2.50),
+('Dr. Pepper', 'Drink', '', 2.50),
+('Root Beer', 'Drink', '', 2.50),
+('Sprite', 'Drink', '', 2.50),
+('Coke Products', 'Drink', '', 2.50),
+('2% Milk', 'Drink', '', 2.50),
+('Chocolate Milk', 'Drink', '', 2.50),
+('Oat Milk', 'Drink', '', 2.50),
+('Almond Milk', 'Drink', '', 2.50)
+
+;

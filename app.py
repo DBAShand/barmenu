@@ -1,8 +1,12 @@
-from flask import Flask, jsonify, render_template_string
+from flask import Flask, jsonify, render_template, render_template_string
 import sqlite3
+import sys
 
-app = Flask(__name__, static_folder="static")
+app = Flask(__name__, static_folder="static", template_folder="templates")
 
+# ──────────────────────────────
+# Helper for DB access
+# ──────────────────────────────
 def query_db(query, args=()):
     conn = sqlite3.connect('menu.db')
     conn.row_factory = sqlite3.Row
@@ -10,6 +14,9 @@ def query_db(query, args=()):
     conn.close()
     return [dict(r) for r in rows]
 
+# ──────────────────────────────
+# API endpoints
+# ──────────────────────────────
 @app.route('/api/beer')
 def beer_api():
     return jsonify(query_db('SELECT name, abv, style FROM beer WHERE active=1 ORDER BY name'))
@@ -28,6 +35,9 @@ def api_restaurant():
         'SELECT name, category, description, price FROM restaurant WHERE active=1 ORDER BY category, name'
     ))
 
+# ──────────────────────────────
+# Static HTML pages
+# ──────────────────────────────
 @app.route('/')
 def home():
     return render_template_string("""
@@ -44,7 +54,9 @@ def home():
           <a href="/beer">Beer on Tap</a> |
           <a href="/spirits">House Spirits</a> |
           <a href="/cocktails">House Cocktails</a> |
-          <a href="/seasonal">Seasonal Menu</a>
+          <a href="/seasonal">Seasonal Menu</a> |
+          <a href="/menu">Rotating Spirits</a> |
+          <a href="/beer/menu">Rotating Beer</a>
         </p>
       </body>
     </html>
@@ -74,8 +86,84 @@ def restaurant_page():
 def display_page():
     return app.send_static_file('display.html')
 
+# ──────────────────────────────
+# Rotating Beer Menu
+# ──────────────────────────────
+@app.route('/beer/menu')
+@app.route('/beer/menu/<int:page>')
+def beer_menu(page: int = 1):
+    """Rotating beer menu with pagination."""
+    per_page = 15
+    offset = (page - 1) * per_page
+
+    conn = sqlite3.connect('menu.db')
+    conn.row_factory = sqlite3.Row
+    cur = conn.cursor()
+    total_beers = cur.execute("SELECT COUNT(*) as cnt FROM beer WHERE active=1").fetchone()["cnt"]
+    rows = cur.execute(
+        "SELECT name, style, abv FROM beer WHERE active=1 ORDER BY name LIMIT ? OFFSET ?",
+        (per_page, offset)
+    ).fetchall()
+    conn.close()
+
+    total_pages = max(1, (total_beers + per_page - 1) // per_page)
+    next_page = 1 if page >= total_pages else page + 1
+    rotate = total_pages > 1  # only rotate if more than one page
+
+    return render_template(
+        "beer_menu.html",
+        rows=rows,
+        page=page,
+        next_page=next_page,
+        total_pages=total_pages,
+        rotate=rotate
+    )
+
+# ──────────────────────────────
+# Rotating Spirits Display
+# ──────────────────────────────
+SPIRIT_GROUPS = {
+    "🥃 Whiskeys & Bourbons": ["Whiskey", "Bourbon", "Rye Whiskey"],
+    "🍸 Gins & Vodkas": ["Gin", "Vodka"],
+    "🍹 Rums & Liqueurs": ["Rum", "Liqueur", "Cream Liqueur"],
+    "🌶 Tequilas & Mezcals": ["Tequila", "Mezcal"],
+    "🇫🇷 Aperitifs & Absinthe": ["Aperitif", "Absinthe"]
+}
+
+def get_spirits(types):
+    conn = sqlite3.connect('menu.db')
+    conn.row_factory = sqlite3.Row
+    placeholders = ','.join(['?'] * len(types))
+    rows = conn.execute(
+        f"SELECT name, origin FROM spirits WHERE active=1 AND type IN ({placeholders}) ORDER BY name",
+        types
+    ).fetchall()
+    conn.close()
+    return [dict(r) for r in rows]
+
+@app.route('/menu/<group_name>')
+def show_group(group_name):
+    if group_name not in SPIRIT_GROUPS:
+        return "Unknown group", 404
+
+    rows = get_spirits(SPIRIT_GROUPS[group_name])
+    group_names = list(SPIRIT_GROUPS.keys())
+    next_group = group_names[(group_names.index(group_name) + 1) % len(group_names)]
+
+    return render_template('menu.html',
+                           group_name=group_name,
+                           rows=rows,
+                           next_group=next_group)
+
+@app.route('/menu')
+def menu_home():
+    first = list(SPIRIT_GROUPS.keys())[0]
+    return f'<meta http-equiv="refresh" content="0;url=/menu/{first}">'
+
+# ──────────────────────────────
+# Run
+# ──────────────────────────────
 if __name__ == '__main__':
-    import sys
     port = 5000
     if '--port' in sys.argv:
         try:

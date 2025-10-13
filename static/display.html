@@ -3,37 +3,84 @@
 <head>
 <meta charset="UTF-8">
 <title>MizzouGlenn’s Tavern Display</title>
-<link rel="stylesheet" href="chalk.css">
+<link rel="stylesheet" href="/static/chalk.css">
 <style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    overflow: hidden;
+  }
+
   iframe {
     width: 100vw;
     height: 100vh;
     border: none;
+    opacity: 1;
     transition: opacity 1s ease-in-out;
   }
-  .fade-out { opacity: 0; }
-  .fade-in  { opacity: 1; }
+
+  iframe.fade-out {
+    opacity: 0;
+  }
+
+  .footer {
+    position: absolute;
+    bottom: 0.5em;
+    width: 100%;
+    text-align: center;
+    color: #888;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 1em;
+    letter-spacing: 0.5px;
+  }
 </style>
 </head>
 <body>
-  <iframe id="display" src="/beer"></iframe>
+  <iframe id="display-frame" src="/beer"></iframe>
+  <div class="footer" id="section-name">Showing: 🍺 Beer on Tap</div>
 
-  <script>
-    const pages = ["/beer", "/spirits","/cocktails","/seasonal"];
-    let index = 0;
-    const frame = document.getElementById("display");
+<script>
+  const pages = [
+    { name: "🍺 Beer on Tap", url: "/beer" },
+    { name: "🥃 Bourbon", url: "/spirits?group=%F0%9F%A5%83%20Bourbon" },
+    { name: "🥨 Rye Whiskey", url: "/spirits?group=%F0%9F%A5%A8%20Rye%20Whiskey" },
+    { name: "🥃 Scotch / Whiskey", url: "/spirits?group=%F0%9F%A5%83%20Scotch%20%2F%20Whiskey" },
+    { name: "🍸 Gin", url: "/spirits?group=%F0%9F%8D%B8%20Gin" },
+    { name: "🍸 Vodka", url: "/spirits?group=%F0%9F%8D%B8%20Vodka" },
+    { name: "🏝 Rum", url: "/spirits?group=%F0%9F%8F%9D%20Rum" },
+    { name: "🍬 Liqueurs & Cordials", url: "/spirits?group=%F0%9F%8D%AC%20Liqueurs%20%26%20Cordials" },
+    { name: "🌶 Tequila / Mezcal", url: "/spirits?group=%F0%9F%8C%B6%20Tequila%20%2F%20Mezcal" },
+    { name: "🇫🇷 Aperitifs / Absinthe", url: "/spirits?group=%F0%9F%87%AB%F0%9F%87%B7%20Aperitifs%20%2F%20Absinthe" },
+    { name: "🍸 House Cocktails", url: "/cocktails" },
+    { name: "🍂 Seasonal Menu", url: "/seasonal" }
+  ];
 
-    function rotate() {
-      frame.classList.add("fade-out");
-      setTimeout(() => {
-        index = (index + 1) % pages.length;
-        frame.src = pages[index];
-        frame.classList.remove("fade-out");
-        frame.classList.add("fade-in");
-      }, 1000); // fade duration
-    }
+  let index = 0;
+  const frame = document.getElementById('display-frame');
+  const footer = document.getElementById('section-name');
 
-    setInterval(rotate, 15000); // 15-second rotation
-  </script>
+  function rotatePage() {
+    // fade out
+    frame.classList.add('fade-out');
+
+    // wait for fade to complete before switching
+    setTimeout(() => {
+      index = (index + 1) % pages.length;
+      frame.src = pages[index].url;
+    }, 1000); // 1s fade out
+  }
+
+  // when new page loads, fade back in and update footer
+  frame.addEventListener('load', () => {
+    footer.textContent = "Showing: " + pages[index].name;
+    frame.classList.remove('fade-out');
+  });
+
+  // ⏱ rotate every 8s for testing (change to 60000 for 1 min)
+  setInterval(rotatePage, 8000);
+</script>
 </body>
 </html>
