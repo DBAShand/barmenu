@@ -46,7 +46,8 @@ def home():
       <head>
         <meta charset="UTF-8">
         <title>MizzouGlenn’s Tavern</title>
-        <link rel="stylesheet" href="/static/chalk.css">
+        <--<link rel="stylesheet" href="/static/chalk.css">-->
+        <link rel="stylesheet" href="/static/main.css">                         
       </head>
       <body style='font-family:sans-serif;text-align:center;margin-top:30vh;'>
         <h1>MizzouGlenn’s Tavern</h1>
@@ -56,7 +57,7 @@ def home():
           <a href="/cocktails">House Cocktails</a> |
           <a href="/seasonal">Seasonal Menu</a> |
           <a href="/menu">Rotating Spirits</a> |
-          <a href="/beer/menu">Rotating Beer</a>
+          <a href="/beer/menu">Rotating Beer</a>                    
         </p>
       </body>
     </html>
@@ -123,11 +124,14 @@ def beer_menu(page: int = 1):
 # Rotating Spirits Display
 # ──────────────────────────────
 SPIRIT_GROUPS = {
-    "🥃 Whiskeys & Bourbons": ["Whiskey", "Bourbon", "Rye Whiskey"],
-    "🍸 Gins & Vodkas": ["Gin", "Vodka"],
-    "🍹 Rums & Liqueurs": ["Rum", "Liqueur", "Cream Liqueur"],
-    "🌶 Tequilas & Mezcals": ["Tequila", "Mezcal"],
-    "🇫🇷 Aperitifs & Absinthe": ["Aperitif", "Absinthe"]
+  "🥃 Bourbon": ["bourbon"],
+  "🥃 Rye": ["Rye"],
+  "🥃 Scotch / Whiskey": ["whiskey", "scotch"],
+  "🍸 Gin": ["gin"],
+  "🍸 Vodka": ["vodka"],
+  "🏝 Rum": ["rum"],
+  "🍷 Liqueurs & Cordials & Aperitifs & Absinthe": ["liqueur", "cream liqueur", "orange liqueur", "herbal liqueur", "elderflower liqueur","aperitif", "absinthe"],
+  "🇲🇽 Tequila / Mezcal": ["Tequila", "Mezcal"],
 }
 
 def get_spirits(types):

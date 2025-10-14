@@ -1,0 +1,170 @@
+/* ==== Mizzou / Tigers Theme Variables ==== */
+:root {
+  --font: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  --bg: #0a0a0a;
+  --fg: #f7f7f7;
+  --rule: #f1b82d;
+  --card-bg: #111213;
+  --card-border: #33363a;
+}
+
+/* ==== Base Layout ==== */
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font);
+  background:
+    radial-gradient(1200px 50% at 50% -10%, rgba(241,184,45,0.08), transparent 70%),
+    linear-gradient(#0a0a0a, #050505);
+  color: var(--fg);
+  line-height: 1.4;
+  text-rendering: optimizeLegibility;
+}
+
+/* ==== Header with Tiger Stripe ==== */
+.menu-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 4px solid var(--rule);
+  border-image: repeating-linear-gradient(
+    135deg,
+    #f1b82d 0 18px,
+    #000 18px 30px
+  ) 8;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* ==== Gold Diamond Logo ==== */
+.mizzou-logo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+}
+
+.logo-row {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+.tile {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  background: var(--rule);
+  color: #111;
+  font-family: "Impact", "Oswald", sans-serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  transform: rotate(45deg);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  position: relative;
+}
+.tile span { transform: rotate(-45deg); }
+
+.brand-name {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 1.8rem;
+  color: var(--rule);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.6);
+}
+
+/* ==== Page Container ==== */
+.board {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: clamp(20px, 3vw, 40px);
+}
+
+/* ==== Section Titles ==== */
+.title, h1.title {
+  font-size: clamp(22px, 2.4vw, 30px);
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--rule);
+  padding-bottom: 6px;
+  margin-bottom: 14px;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+/* ==== Classic Column Drink List ==== */
+.board ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.board li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 1px solid rgba(241,184,45,0.25);
+  padding: 6px 4px;
+  line-height: 1.4;
+  transition: background 0.2s ease;
+}
+
+.board li:hover {
+  background: rgba(241,184,45,0.06);
+}
+
+/* Drink name on left */
+.drink {
+  font-weight: 600;
+  color: var(--fg);
+  font-size: 1.1rem;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.3);
+}
+
+/* Meta (origin, style, abv) on right */
+.meta {
+  color: var(--rule);
+  font-size: 0.95rem;
+  opacity: 0.9;
+  margin-left: 1em;
+  white-space: nowrap;
+  text-align: right;
+}
+
+/* ==== Footer ==== */
+.footer {
+  margin-top: clamp(24px, 3.2vw, 40px);
+  padding-top: 10px;
+  border-top: 2px solid var(--rule);
+  text-align: center;
+  font-style: italic;
+  opacity: 0.8;
+  font-size: clamp(12px, 1.3vw, 14px);
+  color: var(--fg);
+}
+
+/* ==== Responsive Adjustments ==== */
+@media (max-width: 700px) {
+  .board li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .meta {
+    margin-left: 0;
+    margin-top: 2px;
+  }
+}
+
+.menu-header {
+  padding-top: 1.5rem;
+}
+

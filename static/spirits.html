@@ -3,27 +3,47 @@
 <head>
 <meta charset="UTF-8">
 <title>🥃 House Spirits – MizzouGlenn’s Tavern</title>
-<link rel="stylesheet" href="/static/chalk.css">
+<link rel="stylesheet" href="/static/main.css">
 </head>
 <body>
+      <header class="menu-header">
+  <div class="mizzou-logo">
+    <div class="logo-row">
+      <span class="tile"><span>M</span></span>
+      <span class="tile"><span>I</span></span>
+      <span class="tile"><span>Z</span></span>
+      <span class="tile"><span>Z</span></span>
+      <span class="tile"><span>O</span></span>
+      <span class="tile"><span>U</span></span>
+    </div>
+    <div class="logo-row">
+      <span class="tile"><span>G</span></span>
+      <span class="tile"><span>L</span></span>
+      <span class="tile"><span>E</span></span>
+      <span class="tile"><span>N</span></span>
+      <span class="tile"><span>N</span></span>
+      <span class="tile"><span>S</span></span>
+    </div>
+  </div>
+  <div class="brand-name">Tavern</div>
+</header>
   <div class="board">
     <h1 class="title" id="group-name">Loading...</h1>
     <ul id="spirits"></ul>
-    <div class="footer">Good Drinks. Good Company.</div>
+    <div class="footer">MizzouGlenn’s Tavern — Where Every Night’s a Home Game </div>
   </div>
 
   <script>
   // --- Updated spirit groups ---
- const groups = {
+const groups = {
   "🥃 Bourbon": ["bourbon"],
-  "🥃 Rye Whiskey": ["rye"],
+  "🥃 Rye": ["rye"],
   "🥃 Scotch / Whiskey": ["whiskey", "scotch"],
   "🍸 Gin": ["gin"],
   "🍸 Vodka": ["vodka"],
   "🏝 Rum": ["rum"],
-  "🍷 Liqueurs & Cordials": ["liqueur", "cream liqueur"],
+  "🍷 Liqueurs & Cordials & Aperitifs & Absinthe": ["liqueur", "cream liqueur", "orange liqueur", "herbal liqueur", "elderflower liqueur","aperitif", "absinthe"],
   "🇲🇽 Tequila / Mezcal": ["tequila", "mezcal"],
-  "🍷 Aperitifs & Absinthe": ["aperitif", "absinthe"]
 };
 
   // get ?group= from URL (default to Bourbon if none)
