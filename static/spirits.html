@@ -6,50 +6,51 @@
 <link rel="stylesheet" href="/static/main.css">
 </head>
 <body>
-      <header class="menu-header">
-  <div class="mizzou-logo">
-    <div class="logo-row">
-      <span class="tile"><span>M</span></span>
-      <span class="tile"><span>I</span></span>
-      <span class="tile"><span>Z</span></span>
-      <span class="tile"><span>Z</span></span>
-      <span class="tile"><span>O</span></span>
-      <span class="tile"><span>U</span></span>
+  <header class="menu-header">
+    <div class="mizzou-logo">
+      <div class="logo-row">
+        <span class="tile"><span>M</span></span>
+        <span class="tile"><span>I</span></span>
+        <span class="tile"><span>Z</span></span>
+        <span class="tile"><span>Z</span></span>
+        <span class="tile"><span>O</span></span>
+        <span class="tile"><span>U</span></span>
+      </div>
+      <div class="logo-row">
+        <span class="tile"><span>G</span></span>
+        <span class="tile"><span>L</span></span>
+        <span class="tile"><span>E</span></span>
+        <span class="tile"><span>N</span></span>
+        <span class="tile"><span>N</span></span>
+        <span class="tile"><span>S</span></span>
+      </div>
     </div>
-    <div class="logo-row">
-      <span class="tile"><span>G</span></span>
-      <span class="tile"><span>L</span></span>
-      <span class="tile"><span>E</span></span>
-      <span class="tile"><span>N</span></span>
-      <span class="tile"><span>N</span></span>
-      <span class="tile"><span>S</span></span>
-    </div>
-  </div>
-  <div class="brand-name">Tavern</div>
-</header>
+    <div class="brand-name">Tavern</div>
+  </header>
+
   <div class="board">
     <h1 class="title" id="group-name">Loading...</h1>
     <ul id="spirits"></ul>
-    <div class="footer">MizzouGlenn’s Tavern — Where Every Night’s a Home Game </div>
+    <div class="footer">MizzouGlenn’s Tavern — Where Every Night’s a Home Game</div>
   </div>
 
   <script>
-  // --- Updated spirit groups ---
-const groups = {
-  "🥃 Bourbon": ["bourbon"],
-  "🥃 Rye": ["rye"],
-  "🥃 Scotch / Whiskey": ["whiskey", "scotch"],
-  "🍸 Gin": ["gin"],
-  "🍸 Vodka": ["vodka"],
-  "🏝 Rum": ["rum"],
-  "🍷 Liqueurs & Cordials & Aperitifs & Absinthe": ["liqueur", "cream liqueur", "orange liqueur", "herbal liqueur", "elderflower liqueur","aperitif", "absinthe"],
-  "🇲🇽 Tequila / Mezcal": ["tequila", "mezcal"],
-};
+  const groups = {
+    "Bourbon": ["bourbon"],
+    "Rye": ["rye"],
+    "Scotch / Whiskey": ["whiskey", "scotch"],
+    "Gin": ["gin"],
+    "Vodka": ["vodka"],
+    "Rum": ["rum"],
+    "Liqueurs & Cordials & Aperitifs & Absinthe": [
+      "liqueur", "cream liqueur", "orange liqueur", "herbal liqueur",
+      "elderflower liqueur","aperitif", "absinthe"
+    ],
+    "Tequila / Mezcal": ["tequila", "mezcal"],
+  };
 
-  // get ?group= from URL (default to Bourbon if none)
   const params = new URLSearchParams(window.location.search);
-  const groupParam = params.get("group") || "🥃 Bourbon";
-
+  const groupParam = params.get("group") || "Bourbon";
   let spiritsData = [];
 
   async function loadSpirits() {
@@ -79,11 +80,20 @@ const groups = {
 
     const list = document.getElementById('spirits');
     list.innerHTML = filtered.map(s =>
-      `<li><span class="drink">${s.name}</span><span class="meta">${s.origin || ''}</span></li>`
+      `<li>
+         <span class="drink">${s.name}</span>
+         <span class="meta">${s.origin || ''}</span>
+       </li>`
     ).join('');
   }
 
   loadSpirits();
+  </script>
+  <script>
+    if (window.self !== window.top) {
+      document.body.classList.add('display');
+      document.documentElement.classList.add('display');
+    }
   </script>
 </body>
 </html>
