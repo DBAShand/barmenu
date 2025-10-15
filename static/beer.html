@@ -6,46 +6,54 @@
 <link rel="stylesheet" href="/static/main.css">
 </head>
 <body>
-     <header class="menu-header">
-  <div class="mizzou-logo">
-    <div class="logo-row">
-      <span class="tile"><span>M</span></span>
-      <span class="tile"><span>I</span></span>
-      <span class="tile"><span>Z</span></span>
-      <span class="tile"><span>Z</span></span>
-      <span class="tile"><span>O</span></span>
-      <span class="tile"><span>U</span></span>
+  <header class="menu-header">
+    <div class="mizzou-logo">
+      <div class="logo-row">
+        <span class="tile"><span>M</span></span>
+        <span class="tile"><span>I</span></span>
+        <span class="tile"><span>Z</span></span>
+        <span class="tile"><span>Z</span></span>
+        <span class="tile"><span>O</span></span>
+        <span class="tile"><span>U</span></span>
+      </div>
+      <div class="logo-row">
+        <span class="tile"><span>G</span></span>
+        <span class="tile"><span>L</span></span>
+        <span class="tile"><span>E</span></span>
+        <span class="tile"><span>N</span></span>
+        <span class="tile"><span>N</span></span>
+        <span class="tile"><span>S</span></span>
+      </div>
     </div>
-    <div class="logo-row">
-      <span class="tile"><span>G</span></span>
-      <span class="tile"><span>L</span></span>
-      <span class="tile"><span>E</span></span>
-      <span class="tile"><span>N</span></span>
-      <span class="tile"><span>N</span></span>
-      <span class="tile"><span>S</span></span>
-    </div>
-  </div>
-  <div class="brand-name">Tavern</div>
-</header>
+    <div class="brand-name">Tavern</div>
+  </header>
+
   <div class="board">
     <h1 class="title">🍺 Beer on Tap</h1>
     <ul id="beer"></ul>
     <div class="footer">MizzouGlenn’s Tavern — Where Every Night’s a Home Game</div>
   </div>
 
-  <script>
-  async function load(){
-    try {
-      const res = await fetch('/api/beer');
-      const beers = await res.json();
-      document.getElementById('beer').innerHTML = beers.map(b =>
-        `<li><span class="drink">${b.name}</span><span class="meta">${b.abv.toFixed(1)}% • ${b.style}</span></li>`
-      ).join('');
-    } catch(err) {
-      document.getElementById('beer').innerHTML = "<li>Error loading beer list</li>";
-    }
+<script>
+async function load(){
+  try {
+    const res = await fetch('/api/beer');
+    const beers = await res.json();
+    document.getElementById('beer').innerHTML = beers.map(b =>
+      `<li>
+         <span class="drink">
+           ${b.name}${b.abv ? ` (${b.abv.toFixed(1)}%)` : ''}
+         </span>
+         <span class="meta">
+           ${b.brewery ? b.brewery + ' • ' : ''}${b.style}
+         </span>
+       </li>`
+    ).join('');
+  } catch(err) {
+    document.getElementById('beer').innerHTML = "<li>Error loading beer list</li>";
   }
-  load();
-  </script>
+}
+load();
+</script>
 </body>
 </html>

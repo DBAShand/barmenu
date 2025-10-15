@@ -19,7 +19,12 @@ def query_db(query, args=()):
 # ──────────────────────────────
 @app.route('/api/beer')
 def beer_api():
-    return jsonify(query_db('SELECT name, abv, style FROM beer WHERE active=1 ORDER BY name'))
+    # Include brewery now that schema has changed
+    beers = query_db('SELECT name, abv, style, brewery FROM beer WHERE active=1 ORDER BY name')
+    # Ensure abv is always a float (avoid JS errors on null)
+    for b in beers:
+        b['abv'] = float(b['abv']) if b['abv'] is not None else 0.0
+    return jsonify(beers)
 
 @app.route('/api/spirits')
 def spirits_api():
@@ -66,6 +71,11 @@ def home():
 @app.route('/beer')
 def beer_page():
     return app.send_static_file('beer.html')
+
+
+@app.route('/beer/menu')
+def beer_menu_page():
+    return app.send_static_file('beer_menu.html')
 
 @app.route('/spirits')
 def spirits_page():
