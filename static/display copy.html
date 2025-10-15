@@ -9,33 +9,31 @@
   html, body {
     margin: 0;
     padding: 0;
-    height: 100%;
     width: 100%;
-    background: #000;
+    height: 100%;
+    background-color: #000;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
   }
 
   header.menu-header {
     flex: 0 0 auto;
     text-align: center;
-    padding-top: 1rem;
-    z-index: 10;
+    padding-top: 0.5rem;
+    z-index: 5;
   }
 
-  /* 🔑 This is the magic fix */
   #display-frame {
     flex: 1 1 auto;
     width: 100%;
-    height: 100%;
     border: none;
+    transition: opacity 1s ease-in-out;
     display: block;
   }
 
-  iframe.fade-out {
+  #display-frame.fade-out {
     opacity: 0;
-    transition: opacity 1s ease-in-out;
   }
 </style>
 </head>
@@ -62,7 +60,8 @@
     <div class="brand-name">Tavern</div>
   </header>
 
-  <iframe id="display-frame" src="/beer"></iframe>
+<iframe id="display-frame" class="display-mode" src="/beer"></iframe>
+
 <script>
   const pages = [
     { name: "Beer on Tap", url: "/beer" },
@@ -79,29 +78,16 @@
   ];
 
   const frame = document.getElementById('display-frame');
+  const header = document.getElementById('tavern-header');
   let index = 0;
 
-  // ✅ Dynamically measures the height of the iframe content
   function resizeFrame() {
-    const header = document.getElementById('tavern-header');
     const headerHeight = header.offsetHeight;
-
-    // Try to measure inner content height directly
-    let innerHeight = 0;
-    try {
-      const doc = frame.contentDocument || frame.contentWindow.document;
-      if (doc && doc.body) {
-        innerHeight = doc.body.scrollHeight || 0;
-      }
-    } catch {
-      innerHeight = 0;
-    }
-
-    // Take the larger of (available screen height) or (inner content height)
-    const availableHeight = Math.max(window.innerHeight - headerHeight, innerHeight);
-    frame.style.height = availableHeight + 'px';
+    const newHeight = window.innerHeight - headerHeight;
+    frame.style.height = `${newHeight}px`;
   }
 
+  // Run at load and on resize
   window.addEventListener('load', resizeFrame);
   window.addEventListener('resize', resizeFrame);
 
@@ -118,7 +104,6 @@
     frame.classList.remove('fade-out');
   });
 
-  // Rotate every 15s
   setInterval(rotatePage, 15000);
 </script>
 </body>

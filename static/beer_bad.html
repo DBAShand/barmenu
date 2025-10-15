@@ -4,6 +4,81 @@
 <meta charset="UTF-8">
 <title>🍺 Beer on Tap – MizzouGlenn’s Tavern</title>
 <link rel="stylesheet" href="/static/main.css">
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #000;
+    color: #fff;
+    font-family: sans-serif;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  header.menu-header {
+    flex: 0 0 auto;
+    text-align: center;
+    padding-top: 1rem;
+  }
+
+  /* The middle section should fill the screen */
+  .board {
+    flex: 1 1 auto;
+    width: 100%;
+    height: 100vh; /* fill full screen height */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    box-sizing: border-box;
+  }
+
+  h1.title {
+    font-size: 4vw;
+    margin: 0 0 1rem 0;
+  }
+
+  ul#beer {
+    flex: 1;
+    width: 100%;
+    overflow-y: auto;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 2vw;
+  }
+
+  li {
+    margin: 0.5rem 0;
+  }
+
+  .drink {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.3rem;
+  }
+
+  .meta {
+    display: block;
+    font-size: 1.3vw;
+    opacity: 0.8;
+  }
+
+  .footer {
+    flex: 0 0 auto;
+    font-size: 1.3vw;
+    opacity: 0.7;
+    padding-top: 1rem;
+  }
+</style>
 </head>
 <body>
   <header class="menu-header">
@@ -41,12 +116,8 @@ async function load(){
     const beers = await res.json();
     document.getElementById('beer').innerHTML = beers.map(b =>
       `<li>
-         <span class="drink">
-           ${b.name}${b.abv ? ` (${b.abv.toFixed(1)}%)` : ''}
-         </span>
-         <span class="meta">
-           ${b.brewery ? b.brewery + ' • ' : ''}${b.style}
-         </span>
+         <span class="drink">${b.name}${b.abv ? ` (${b.abv.toFixed(1)}%)` : ''}</span>
+         <span class="meta">${b.brewery ? b.brewery + ' • ' : ''}${b.style}</span>
        </li>`
     ).join('');
   } catch(err) {
@@ -54,13 +125,6 @@ async function load(){
   }
 }
 load();
-</script>
-<script>
-  // Detect if loaded inside display.html
-  if (window.self !== window.top) {
-    document.body.classList.add('display');
-    document.documentElement.classList.add('display');
-  }
 </script>
 </body>
 </html>

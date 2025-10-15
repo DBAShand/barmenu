@@ -134,14 +134,14 @@ def beer_menu(page: int = 1):
 # Rotating Spirits Display
 # ──────────────────────────────
 SPIRIT_GROUPS = {
-  "🥃 Bourbon": ["bourbon"],
-  "🥃 Rye": ["Rye"],
-  "🥃 Scotch / Whiskey": ["whiskey", "scotch"],
-  "🍸 Gin": ["gin"],
-  "🍸 Vodka": ["vodka"],
-  "🏝 Rum": ["rum"],
-  "🍷 Liqueurs & Cordials & Aperitifs & Absinthe": ["liqueur", "cream liqueur", "orange liqueur", "herbal liqueur", "elderflower liqueur","aperitif", "absinthe"],
-  "🇲🇽 Tequila / Mezcal": ["Tequila", "Mezcal"],
+  "Bourbon": ["bourbon"],
+  "Rye": ["Rye"],
+  "Scotch / Whiskey": ["whiskey", "scotch"],
+  "Gin": ["gin"],
+  "Vodka": ["vodka"],
+  "Rum": ["rum"],
+  "Liqueurs & Cordials & Aperitifs & Absinthe": ["liqueur", "cream liqueur", "orange liqueur", "herbal liqueur", "elderflower liqueur","aperitif", "absinthe"],
+  "Tequila / Mezcal": ["Tequila", "Mezcal"],
 }
 
 def get_spirits(types):
