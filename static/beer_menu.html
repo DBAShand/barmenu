@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>🍺 Rotating Beer Menu – MizzouGlenn’s Tavern</title>
+<link rel="stylesheet" href="/static/main.css">
+<meta http-equiv="refresh" content="15"> <!-- auto-rotate every 15s -->
+</head>
+<body>
+  <header class="menu-header">
+    <div class="mizzou-logo">
+      <div class="logo-row">
+        <span class="tile"><span>M</span></span>
+        <span class="tile"><span>I</span></span>
+        <span class="tile"><span>Z</span></span>
+        <span class="tile"><span>Z</span></span>
+        <span class="tile"><span>O</span></span>
+        <span class="tile"><span>U</span></span>
+      </div>
+      <div class="logo-row">
+        <span class="tile"><span>G</span></span>
+        <span class="tile"><span>L</span></span>
+        <span class="tile"><span>E</span></span>
+        <span class="tile"><span>N</span></span>
+        <span class="tile"><span>N</span></span>
+        <span class="tile"><span>S</span></span>
+      </div>
+    </div>
+    <div class="brand-name">Tavern</div>
+  </header>
+
+  <div class="board">
+    <h1 class="title">🍺 Rotating Beer Menu</h1>
+    <ul id="beer"></ul>
+    <div class="footer">MizzouGlenn’s Tavern — Where Every Night’s a Home Game</div>
+  </div>
+
+  <script>
+  async function load() {
+    try {
+      const res = await fetch('/api/beer');
+      const beers = await res.json();
+      const random15 = beers.sort(() => 0.5 - Math.random()).slice(0, 15); // random rotation
+      document.getElementById('beer').innerHTML = random15.map(b =>
+        `<li>
+          <span class="drink">${b.name}</span>
+          <span class="meta">
+            ${b.brewery ? b.brewery + ' • ' : ''}
+            ${b.abv ? b.abv.toFixed(1) + '% • ' : ''}
+            ${b.style}
+          </span>
+        </li>`
+      ).join('');
+    } catch (err) {
+      document.getElementById('beer').innerHTML = "<li>Error loading beer list</li>";
+    }
+  }
+  load();
+  </script>
+</body>
+</html>
