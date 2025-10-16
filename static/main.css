@@ -682,3 +682,33 @@ body.display .footer {
   border-top: 2px solid var(--rule);
   flex-shrink: 0;                /* pin footer below list */
 }
+
+/* ==== Cocktail Page Alignment Fix ==== */
+body.cocktails {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;   /* centers vertically if content shorter than screen */
+  align-items: center;       /* centers horizontally */
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.cocktail-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;  /* two columns — adjust as needed */
+  gap: 1rem;
+  max-width: 90vw;
+  width: 100%;
+}
+
+.cocktail-item {
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 0.75rem;
+  padding: 0.5rem 1rem;
+  text-align: left;          /* keeps text inside item aligned cleanly */
+  color: var(--fg);
+}

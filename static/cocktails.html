@@ -1,32 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Cocktails – MizzouGlenn’s Tavern</title>
-<link rel="stylesheet" href="/static/main.css">
+  <meta charset="UTF-8">
+  <title>🍸 Cocktails – MizzouGlenn’s Tavern</title>
+  <link rel="stylesheet" href="/static/main.css">
 </head>
 <body>
-      <header class="menu-header">
-  <div class="mizzou-logo">
-    <div class="logo-row">
-      <span class="tile"><span>M</span></span>
-      <span class="tile"><span>I</span></span>
-      <span class="tile"><span>Z</span></span>
-      <span class="tile"><span>Z</span></span>
-      <span class="tile"><span>O</span></span>
-      <span class="tile"><span>U</span></span>
+  <header class="menu-header">
+    <div class="mizzou-logo">
+      <div class="logo-row">
+        <span class="tile"><span>M</span></span>
+        <span class="tile"><span>I</span></span>
+        <span class="tile"><span>Z</span></span>
+        <span class="tile"><span>Z</span></span>
+        <span class="tile"><span>O</span></span>
+        <span class="tile"><span>U</span></span>
+      </div>
+      <div class="logo-row">
+        <span class="tile"><span>G</span></span>
+        <span class="tile"><span>L</span></span>
+        <span class="tile"><span>E</span></span>
+        <span class="tile"><span>N</span></span>
+        <span class="tile"><span>N</span></span>
+        <span class="tile"><span>S</span></span>
+      </div>
     </div>
-    <div class="logo-row">
-      <span class="tile"><span>G</span></span>
-      <span class="tile"><span>L</span></span>
-      <span class="tile"><span>E</span></span>
-      <span class="tile"><span>N</span></span>
-      <span class="tile"><span>N</span></span>
-      <span class="tile"><span>S</span></span>
-    </div>
-  </div>
-  <div class="brand-name">Tavern</div>
-</header>
+    <div class="brand-name">Tavern</div>
+  </header>
+
   <div class="board">
     <h1 class="title">Cocktails</h1>
     <ul id="cocktails"></ul>
@@ -34,17 +35,31 @@
   </div>
 
   <script>
-  async function load(){
-    const res = await fetch('/api/cocktails');
-    const cocktails = await res.json();
-    document.getElementById('cocktails').innerHTML = cocktails.map(c =>
-      `<li><span class="drink">${c.name}</span>
-           <span class="meta">${c.base} • ${c.style} • ${c.abv.toFixed(1)}%</span></li>`
-    ).join('');
-  }
-  load();
+    async function load(){
+      try {
+        const res = await fetch('/api/cocktails');
+        const cocktails = await res.json();
+        document.getElementById('cocktails').innerHTML = cocktails.map(c =>
+          `<li>
+             <span class="drink">${c.name}</span>
+             <span class="meta">
+               ${c.base ? c.base + ' • ' : ''}${c.style}${c.abv ? ' • ' + c.abv.toFixed(1) + '%' : ''}
+             </span>
+           </li>`
+        ).join('');
+      } catch(err) {
+        document.getElementById('cocktails').innerHTML = "<li>Error loading cocktail list</li>";
+      }
+    }
+    load();
+  </script>
+
+  <script>
+    // Detect if loaded inside display.html (kiosk mode)
+    if (window.self !== window.top) {
+      document.body.classList.add('display');
+      document.documentElement.classList.add('display');
+    }
   </script>
 </body>
 </html>
-
-
