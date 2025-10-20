@@ -78,46 +78,7 @@ body {
   text-transform: uppercase;
   text-shadow: 0 1px 0 rgba(0,0,0,0.6);
 }
-/* === FIX: Split header layout for MIZZOU (left) and GLENNS (right) === */
-/*
-.mizzou-logo.split {
-  display: flex !important;
-  flex-direction: row !important;   /* ensure inline, not stacked */
-  
-  /*justify-content: space-between !important; /* push apart */
-  
-  /*align-items: center !important;
-  width: 100% !important;
-  max-width: 1600px !important;
-  margin: 0 auto 1rem auto !important;
-  padding: 0 1rem;
-}*/
 
-.mizzou-logo.split {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;   /* still left/right aligned */
-  align-items: center;
-  width: 100%;
-  max-width: 900px;                 /* <-- tighten this to pull them in */
-  margin: 0 auto 1rem auto;         /* centers the entire logo band */
-  gap: 1.5rem;                      /* subtle spacing between MIZZOU / TAVERN / GLENNS */
-}
-
-.mizzou-logo.split .logo-left,
-.mizzou-logo.split .logo-right {
-  display: flex !important;
-  flex-direction: row !important;
-  gap: 20px !important; /* spacing between diamonds */
-}
-
-.mizzou-logo.split .logo-left {
-  justify-content: flex-start !important;
-}
-
-.mizzou-logo.split .logo-right {
-  justify-content: flex-end !important;
-}
 /* ==== Page Container ==== */
 .board {
   max-width: 900px;
@@ -232,7 +193,7 @@ html, body {
 
 /* Inside display iframe, make board fill the frame completely */
 html.display iframe body .board,
-body.display .board {
+body.cocktails .board {
   max-width: none;
   width: 100%;
   height: 100%;
@@ -244,7 +205,7 @@ body.display .board {
 }
 
 /* ==== Fullscreen Display Mode (when inside display.html iframe) ==== */
-body.display .board {
+body.cocktails .board {
   max-width: none;
   width: 100%;
   margin: 0;
@@ -252,7 +213,7 @@ body.display .board {
 }
 
 /* ==== Full Width and Height When Inside Display ==== */
-body.display .board {
+body.cocktails .board {
   width: 100%;
   max-width: none;
   height: 100%;
@@ -264,7 +225,7 @@ body.display .board {
 }
 
 /* ==== DISPLAY MODE: Full Width with Margin Balance ==== */
-body.display .board,
+body.cocktails .board,
 html.display .board {
   width: 90vw !important;      /* 90% of viewport width */
   max-width: 1600px !important;/* keeps it elegant on very large screens */
@@ -273,23 +234,23 @@ html.display .board {
   padding-right: 2vw;
 }
 
-body.display .board ul {
+body.cocktails .board ul {
   width: 100%;
   max-width: 100%;
 }
 
-body.display .board li {
+body.cocktails .board li {
   justify-content: space-between;
   width: 100%;
 }
 /* ==== DISPLAY MODE HEIGHT FIX ==== */
-body.display,
+body.cocktails,
 html.display {
   height: 100%;
   overflow: hidden;
 }
 
-body.display .board {
+body.cocktails .board {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -300,7 +261,7 @@ body.display .board {
   padding-bottom: 1vh;
 }
 
-body.display ul#beer {
+body.cocktails ul#beer {
   flex: 1;
   overflow-y: auto;           /* scrolls if list is too long */
   margin: 0;
@@ -308,14 +269,14 @@ body.display ul#beer {
 }
 
 
-body.display .board ul {
+body.cocktails .board ul {
   flex: 1;
   overflow-y: auto;
   margin: 0;
   padding: 0;
 }
 /* ==== DISPLAY MODE FINAL POLISH ==== */
-body.display .board {
+body.cocktails .board {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -326,18 +287,18 @@ body.display .board {
   box-sizing: border-box;
 }
 
-body.display .board .title {
+body.cocktails .board .title {
   margin: 0 0 0.5rem 0;
 }
 
-body.display .board ul {
+body.cocktails .board ul {
   flex: 1 1 auto;          /* fill space but allow footer */
   overflow-y: auto;        /* scroll if too many items */
   margin: 0;
   padding: 0 0 1rem 0;     /* little breathing room above footer */
 }
 
-body.display .footer {
+body.cocktails .footer {
   flex-shrink: 0;          /* keep footer visible */
   margin-top: 0.5rem;
   padding-top: 0.5rem;
@@ -346,20 +307,20 @@ body.display .footer {
 }
 
 /* === Fix footer visibility in display mode === */
-body.display .board {
+body.cocktails .board {
   display: flex;
   flex-direction: column;
   height: 100vh;
 }
 
-body.display .board ul {
+body.cocktails .board ul {
   flex: 1 1 auto;
   overflow-y: auto;
   margin: 0;
   padding-bottom: 1.5rem; /* adds breathing room above footer */
 }
 
-body.display .footer {
+body.cocktails .footer {
   flex-shrink: 0; /* prevent footer from collapsing */
   margin-top: auto;
   padding-top: 0.5rem;
@@ -368,7 +329,7 @@ body.display .footer {
 }
 
 /* === FINAL FIX: visible footer, scrollable list, no layout shift === */
-body.display .board {
+body.cocktails .board {
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -379,11 +340,11 @@ body.display .board {
   box-sizing: border-box;
 }
 
-body.display .board .title {
+body.cocktails .board .title {
   margin: 0 0 0.5rem 0;
 }
 
-body.display .board ul {
+body.cocktails .board ul {
   flex: 1 1 auto;         /* fills space but allows footer */
   overflow-y: auto;
   margin: 0;
@@ -391,7 +352,7 @@ body.display .board ul {
   list-style: none;
 }
 
-body.display .footer {
+body.cocktails .footer {
   flex-shrink: 0;          /* keeps footer visible */
   margin-top: 0.5rem;
   padding-top: 0.5rem;
@@ -400,7 +361,7 @@ body.display .footer {
 }
 
 /* === FINAL DISPLAY FOOTER STYLE === */
-body.display .footer {
+body.cocktails .footer {
   position: sticky;
   bottom: 0;
   background: #000;               /* same as page background */
@@ -416,7 +377,7 @@ body.display .footer {
 }
 
 /* === Footer with matching gold line above it === */
-body.display .footer {
+body.cocktails .footer {
   position: sticky;
   bottom: 0;
   background: #000;
@@ -431,12 +392,12 @@ body.display .footer {
 }
 
 /* Keep list from showing a double line */
-body.display .board ul li:last-child {
+body.cocktails .board ul li:last-child {
   border-bottom: none !important;
 }
 
 /* ==== DISPLAY MODE: Full-Width + Fluid Height ==== */
-body.display .board {
+body.cocktails .board {
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -447,19 +408,19 @@ body.display .board {
   box-sizing: border-box;
 }
 
-body.display .board .title {
+body.cocktails .board .title {
   border-bottom: 2px solid var(--rule);  /* gold line under title */
   margin-bottom: 0.5rem;
 }
 
-body.display .board ul {
+body.cocktails .board ul {
   list-style: none;
   margin: 0;
   padding: 0 0 1rem 0;
   overflow: visible;          /* grows with number of records */
 }
 
-body.display .board ul li {
+body.cocktails .board ul li {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
@@ -468,11 +429,11 @@ body.display .board ul li {
   line-height: 1.4;
 }
 
-body.display .board ul li:last-child {
+body.cocktails .board ul li:last-child {
   border-bottom: none;        /* removes duplicate line above footer */
 }
 
-body.display .footer {
+body.cocktails .footer {
   border-top: 2px solid var(--rule);     /* gold line above footer */
   text-align: center;
   padding: 0.8rem 0;
@@ -482,7 +443,7 @@ body.display .footer {
 }
   
   /* ===== DISPLAY MODE — FULL WIDTH + FLUID HEIGHT (final reset) ===== */
-body.display .board {
+body.cocktails .board {
   /* stop any 100vh / flex container from forcing height */
   display: block !important;
   height: auto !important;
@@ -496,13 +457,13 @@ body.display .board {
   box-sizing: border-box !important;
 }
 
-body.display .board .title {
+body.cocktails .board .title {
   border-bottom: 2px solid var(--rule) !important;
   margin: 0 0 0.5rem 0 !important;
 }
 
 /* make list height fluid (no flex stretch, no scroll unless needed) */
-body.display .board ul {
+body.cocktails .board ul {
   display: block !important;
   flex: initial !important;
   overflow: visible !important;
@@ -511,7 +472,7 @@ body.display .board ul {
   list-style: none !important;
 }
 
-body.display .board li {
+body.cocktails .board li {
   display: flex !important;
   justify-content: space-between !important;
   align-items: baseline !important;
@@ -520,12 +481,12 @@ body.display .board li {
   line-height: 1.4 !important;
 }
 
-body.display .board li:last-child {
+body.cocktails .board li:last-child {
   border-bottom: none !important;
 }
 
 /* footer framed, but not fixed; layout stays fluid */
-body.display .footer {
+body.cocktails .footer {
   position: static !important;
   border-top: 2px solid var(--rule) !important;
   margin-top: 0.5rem !important;
@@ -536,7 +497,7 @@ body.display .footer {
 }
 
 /* === Full width, fluid height (restores original vertical behavior) === */
-body.display .board {
+body.cocktails .board {
   width: 90vw;               /* wider look */
   max-width: 1600px;         /* keep it readable on TVs */
   margin: 0 auto;            /* center it horizontally */
@@ -544,21 +505,21 @@ body.display .board {
   box-sizing: border-box;
 }
 
-body.display .board ul {
+body.cocktails .board ul {
   width: 100%;               /* makes list fill available width */
 }
 
-body.display .board li {
+body.cocktails .board li {
   justify-content: space-between;
   border-bottom: 1px solid rgba(241,184,45,0.25);
   padding: 6px 4px;
 }
 
-body.display .board li:last-child {
+body.cocktails .board li:last-child {
   border-bottom: none;
 }
 
-body.display .footer {
+body.cocktails .footer {
   border-top: 2px solid var(--rule);
   text-align: center;
   padding: 0.8rem 0;
@@ -567,12 +528,12 @@ body.display .footer {
 }
 
 /* === Remove excess gap between list and footer === */
-body.display .board ul {
+body.cocktails .board ul {
   margin-bottom: 0 !important;
   padding-bottom: 0 !important;
 }
 
-body.display .footer {
+body.cocktails .footer {
   margin-top: 0 !important;
   padding-top: 0.5rem !important; /* keeps a bit of breathing room */
   border-top: 2px solid var(--rule);
@@ -582,7 +543,7 @@ body.display .footer {
 }
 
 /* === Diagnostic layout cleanup for display mode === */
-body.display .board {
+body.cocktails .board {
   display: block !important;
   height: auto !important;
   min-height: auto !important;
@@ -594,29 +555,29 @@ body.display .board {
   box-sizing: border-box !important;
 }
 
-body.display .board .title {
+body.cocktails .board .title {
   border-bottom: 2px solid var(--rule) !important;
   margin: 2rem 0 1rem 0 !important;
   text-align: center !important;
 }
 
-body.display .board ul {
+body.cocktails .board ul {
   display: block !important;
   margin: 0 !important;
   padding: 0 !important;
   list-style: none !important;
 }
 
-body.display .board li {
+body.cocktails .board li {
   border-bottom: 1px solid rgba(241,184,45,0.25) !important;
   padding: 6px 4px !important;
 }
 
-body.display .board li:last-child {
+body.cocktails .board li:last-child {
   border-bottom: none !important;
 }
 
-body.display .footer {
+body.cocktails .footer {
   border-top: 2px solid var(--rule) !important;
   margin: 0 !important;
   padding: 0.5rem 0 !important;
@@ -626,7 +587,7 @@ body.display .footer {
 }
 
 /* === FINAL: Full width + fluid height + tight footer alignment === */
-body.display .board {
+body.cocktails .board {
   display: block;
   width: 90vw;
   max-width: 1600px;
@@ -635,19 +596,19 @@ body.display .board {
   box-sizing: border-box;
 }
 
-body.display .board .title {
+body.cocktails .board .title {
   border-bottom: 2px solid var(--rule);
   margin: 0 0 1rem 0;
   text-align: center;
 }
 
-body.display .board ul {
+body.cocktails .board ul {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-body.display .board li {
+body.cocktails .board li {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
@@ -656,12 +617,12 @@ body.display .board li {
   line-height: 1.4;
 }
 
-body.display .board li:last-child {
+body.cocktails .board li:last-child {
   border-bottom: none;
   margin-bottom: 0;  /* removes final invisible gap */
 }
 
-body.display .footer {
+body.cocktails .footer {
   border-top: 2px solid var(--rule);
   text-align: center;
   margin-top: 0;     /* tightens connection to list */
@@ -672,82 +633,75 @@ body.display .footer {
 }
 
 /* Remove bottom padding when page is inside display.html */
-html.display body.display .board,
-body.display .board {
+html.display body.cocktails .board,
+body.cocktails .board {
   padding-bottom: 0 !important;
 }
 
 /* === FIX: remove gap between last item and footer when in display mode === */
-body.display .board ul {
+body.cocktails .board ul {
   margin-bottom: 0 !important;
   padding-bottom: 0 !important;
 }
 
-body.display .board li:last-child {
+body.cocktails .board li:last-child {
   margin-bottom: 0 !important;
   padding-bottom: 0 !important;
   border-bottom: none !important;
 }
 
-body.display .footer {
+body.cocktails .footer {
   margin-top: 0 !important;
   padding-top: 0.4rem !important;
   border-top: 2px solid var(--rule);
 }
 
-/* === FIX: eliminate any remaining gap above footer in display mode === */
-body.display .board {
-  display: flex;
-  flex-direction: column;
-  height: auto !important;       /* let height flow naturally */
-  min-height: 100%;              /* fill screen if short list */
+/* === FINAL TOP-SPACING FIX FOR COCKTAILS PAGE === */
+
+/* Remove any fullscreen/flex behavior still being inherited */
+body.cocktails,
+body.cocktails html {
+  height: auto !important;
+  overflow: visible !important;
 }
 
-body.display .board ul {
-  flex: 0 0 auto;                /* stop flex expansion */
-  margin: 0;
-  padding: 0;
+/* Prevent .board from stretching or centering */
+body.cocktails .board {
+  display: block !important;
+  height: auto !important;
+  padding-top: 0 !important;      /* removes vertical offset */
+  margin-top: 0 !important;
+  width: 90vw;              /* or whatever width you like (80vw, 60vw, etc.) */
+  max-width: 1000px;        /* optional, keeps it neat on large screens */
+  margin: 0 auto; 
 }
 
-body.display .board li:last-child {
-  margin-bottom: 0;
-  padding-bottom: 0;
-  border-bottom: none;
+/* Keep the header tight to the logo */
+body.cocktails .menu-header {
+  margin-bottom: 0.5rem !important; /* tighter space under tiger stripe */
+  padding-bottom: 0.5rem !important;
+  padding-top: 1.5 !important;        /* no extra top padding */
 }
 
-body.display .footer {
-  margin-top: 0;
-  padding-top: 0.4rem;
-  border-top: 2px solid var(--rule);
-  flex-shrink: 0;                /* pin footer below list */
-}
-
-/* ==== Cocktail Page Alignment Fix ==== */
-body.cocktails {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;   /* centers vertically if content shorter than screen */
-  align-items: center;       /* centers horizontally */
+/* Title alignment identical to beer */
+body.cocktails .board .title {
+  margin-top: 0 !important;
+  margin-bottom: 0.5rem !important;
   text-align: center;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
+  border-bottom: 2px solid var(--rule);
 }
 
-.cocktail-list {
-  display: grid;
-  grid-template-columns: 1fr 1fr;  /* two columns — adjust as needed */
-  gap: 1rem;
-  max-width: 90vw;
-  width: 100%;
+.menu-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100vw;              /* same width as .board */
+  max-width: auto;         /* aligns exactly with drink list */
+  margin: 0 auto 1rem auto; /* centers header & adds bottom spacing */
+  padding-top: 0;           /* no extra space above */
+  padding-bottom: 1rem;
+  position: relative;
+  padding-top: 1.5rem;
 }
 
-.cocktail-item {
-  background-color: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 0.75rem;
-  padding: 0.5rem 1rem;
-  text-align: left;          /* keeps text inside item aligned cleanly */
-  color: var(--fg);
-}

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MizzouGlenn’s Tavern – Menu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/static/main.css">
+  <style>
+    /* === Guest Menu Layout (3 Columns) === */
+    body {
+      background: #000;
+      color: var(--fg);
+      font-family: var(--font);
+      text-align: center;
+    }
+
+    .home-board {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 1.5rem;
+    }
+
+    h1.welcome {
+      font-size: clamp(26px, 4vw, 42px);
+      color: var(--rule);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-bottom: 2px solid var(--rule);
+      padding-bottom: 0.4rem;
+      margin-bottom: 0.5rem;
+    }
+
+    p.intro {
+      font-size: 1.1rem;
+      color: #ddd;
+      opacity: 0.9;
+      margin-bottom: 1.5rem;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      width: 100%;
+      max-width: 900px;
+    }
+
+    .menu-section {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 0.75rem;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .menu-section h2 {
+      color: var(--rule);
+      font-size: 1.2rem;
+      text-transform: uppercase;
+      border-bottom: 1px solid rgba(241,184,45,0.4);
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.3rem;
+      letter-spacing: 0.5px;
+    }
+
+    .menu-section a {
+      display: block;
+      text-decoration: none;
+      color: var(--fg);
+      padding: 0.5rem 0;
+      font-weight: 600;
+      font-size: 1rem;
+      border-radius: 0.3rem;
+      transition: all 0.25s ease;
+    }
+
+    .menu-section a:hover {
+      color: var(--rule);
+      background-color: rgba(241, 184, 45, 0.1);
+      transform: scale(1.03);
+    }
+
+    footer {
+      margin-top: 2rem;
+      text-align: center;
+      font-style: italic;
+      opacity: 0.8;
+      border-top: 2px solid var(--rule);
+      padding-top: 0.8rem;
+    }
+  .logo-row {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+}
+.mizzou-logo {
+  display: flex;
+  justify-content: space-between; /* pushes MIZZOU left, GLENNS right */
+  align-items: center;
+  width: 90vw;
+  max-width: 1000px;
+  margin: 0 auto;
+  gap: 1rem; /* optional middle spacing */
+}
+
+.logo-side {
+  display: flex;
+  gap: 10px; /* space between diamonds within each side */
+}
+
+.logo-side.left {
+  justify-content: flex-start;
+}
+
+.logo-side.right {
+  justify-content: flex-end;
+}
+/* === FIX: Split header layout for MIZZOU (left) and GLENNS (right) === */
+.mizzou-logo.split {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;   /* still left/right aligned */
+  align-items: center;
+  width: 100%;
+  max-width: 900px;                 /* <-- tighten this to pull them in */
+  margin: 0 auto 1rem auto;         /* centers the entire logo band */
+  gap: 1.5rem;                      /* subtle spacing between MIZZOU / TAVERN / GLENNS */
+}
+
+.mizzou-logo.split .logo-left,
+.mizzou-logo.split .logo-right {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 12px !important; /* spacing between diamonds */
+}
+
+.mizzou-logo.split .logo-left {
+  justify-content: flex-start !important;
+}
+
+.mizzou-logo.split .logo-right {
+  justify-content: flex-end !important;
+}
+  </style>
+</head>
+
+<body>
+  <header class="menu-header">
+    <div class="mizzou-logo">
+<div class="mizzou-logo">
+<div class="mizzou-logo split">
+  <div class="logo-left">
+    <span class="tile"><span>M</span></span>
+    <span class="tile"><span>I</span></span>
+    <span class="tile"><span>Z</span></span>
+    <span class="tile"><span>Z</span></span>
+    <span class="tile"><span>O</span></span>
+    <span class="tile"><span>U</span></span>
+  </div>
+
+  <div class="logo-right">
+    <span class="tile"><span>G</span></span>
+    <span class="tile"><span>L</span></span>
+    <span class="tile"><span>E</span></span>
+    <span class="tile"><span>N</span></span>
+    <span class="tile"><span>N</span></span>
+    <span class="tile"><span>S</span></span>
+  </div>
+</div>
+    <div class="brand-name">Tavern Menu</div>
+  </header>
+
+  <main class="home-board">
+    <h1 class="welcome">Welcome to MizzouGlenn’s Tavern</h1>
+
+    <div class="menu-grid">
+      <!-- Beer -->
+      <div class="menu-section">
+        <h2>🍺 Beer</h2>
+        <a href="/beer">Beer on Tap</a>
+      </div>
+
+      <!-- Cocktails -->
+      <div class="menu-section">
+        <h2>🍸 Cocktails</h2>
+        <a href="/cocktails">House Cocktails</a>
+      </div>
+
+      <!-- Spirits -->
+      <div class="menu-section">
+        <h2>🥃 Spirits</h2>
+        <a href="/spirits?group=Bourbon">Bourbon</a>
+        <a href="/spirits?group=Rye">Rye</a>
+        <a href="/spirits?group=Scotch%20%2F%20Whiskey">Scotch / Whiskey</a>
+        <a href="/spirits?group=Gin">Gin</a>
+        <a href="/spirits?group=Vodka">Vodka</a>
+        <a href="/spirits?group=Rum">Rum</a>
+        <a href="/spirits?group=Liqueurs%20%26%20Cordials%20%26%20Aperitifs%20%26%20Absinthe">
+          Liqueurs & Cordials & Aperitifs & Absinthe
+        </a>
+        <a href="/spirits?group=Tequila%20%2F%20Mezcal">Tequila / Mezcal</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    © 2025 MizzouGlenn’s Tavern — Columbia, MO<br>
+    <a href="#top" style="color: var(--rule); text-decoration:none;">↑ Back to Top</a>
+  </footer>
+</body>
+</html>
