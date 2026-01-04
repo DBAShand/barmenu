@@ -6,6 +6,20 @@
 <link rel="stylesheet" href="/static/chalk.css">
 <link rel="stylesheet" href="/static/mizzou-vintage.css">
 <style>
+  #display-frame {
+  flex: 1 1 auto;
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+
+  opacity: 1;
+  transition: opacity 1s ease-in-out;
+}
+
+#display-frame.fade-out {
+  opacity: 0;
+}
   html, body {
     margin: 0;
     padding: 0;
@@ -71,7 +85,8 @@
     { name: "Beer on Tap", url: "/beer" },
     { name: "Bourbon", url: "/spirits?group=Bourbon" },
     { name: "Rye", url: "/spirits?group=Rye" },
-    { name: "Scotch / Whiskey", url: "/spirits?group=Scotch%20%2F%20Whiskey" },
+    { name: "Scotch", url: "/spirits?group=Scotch" },
+    { name: "Whiskey", url: "/spirits?group=Whiskey" },
     { name: "Gin", url: "/spirits?group=Gin" },
     { name: "Vodka", url: "/spirits?group=Vodka" },
     { name: "Rum", url: "/spirits?group=Rum" },

@@ -300,7 +300,7 @@ body.display .board {
   padding-bottom: 1vh;
 }
 
-/* MOVE TO PAGE-SPECIFIC FILE */ body.display ul#beer {
+body.display ul#beer {
   flex: 1;
   overflow-y: auto;           /* scrolls if list is too long */
   margin: 0;
@@ -722,8 +722,8 @@ body.display .footer {
   flex-shrink: 0;                /* pin footer below list */
 }
 
-/* MOVE TO PAGE-SPECIFIC FILE */ /* ==== Cocktail Page Alignment Fix ==== */
-/* MOVE TO PAGE-SPECIFIC FILE */ body.cocktails {
+/* ==== Cocktail Page Alignment Fix ==== */
+body.cocktails {
   display: flex;
   flex-direction: column;
   justify-content: center;   /* centers vertically if content shorter than screen */
@@ -735,7 +735,7 @@ body.display .footer {
   height: 100%;
 }
 
-/* MOVE TO PAGE-SPECIFIC FILE */ .cocktail-list {
+.cocktail-list {
   display: grid;
   grid-template-columns: 1fr 1fr;  /* two columns — adjust as needed */
   gap: 1rem;
@@ -743,53 +743,11 @@ body.display .footer {
   width: 100%;
 }
 
-/* MOVE TO PAGE-SPECIFIC FILE */ .cocktail-item {
+.cocktail-item {
   background-color: var(--card-bg);
   border: 1px solid var(--card-border);
   border-radius: 0.75rem;
   padding: 0.5rem 1rem;
   text-align: left;          /* keeps text inside item aligned cleanly */
   color: var(--fg);
-}
-
-a {
-  color: #f5f5f5;        /* normal link color */
-}
-
-a:visited {
-  color: #f5f5f5;        /* SAME color — kill purple */
-}
-
-a:hover {
-  color: #ffcc33;        /* optional highlight */
-}
-
-.nav-links {
-  text-align: center;
-}
-
-/* Base link styling */
-.nav-links a,
-.nav-links a:visited {
-  color: #f5f5f5;
-  text-decoration: none;
-}
-
-/* Diamond after EVERY link */
-.nav-links a::after {
-  content: " ◆";
-  color: #b38b00;
-  margin-left: 0.5rem;
-}
-
-/* Diamond before FIRST link */
-.nav-links a:first-child::before {
-  content: "◆ ";
-  color: #b38b00;
-  margin-right: 0.5rem;
-}
-
-/* Hover */
-.nav-links a:hover {
-  color: #ffcc33;
 }
