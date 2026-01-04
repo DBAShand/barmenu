@@ -90,7 +90,7 @@ def home():
             <a href="/spirits?group=Gin">Gin</a> 
             <a href="/spirits?group=Vodka">Vodka</a> 
             <a href="/spirits?group=Rum">Rum</a> 
-            <a href="/spirits?group=Tequila">Tequila</a> 
+            <a href="/spirits?group=Tequila%20%2F%20Mezcal">Tequila/Mezcal</a> 
             <a href="/spirits?group=Liqueurs%20%26%20Cordials%20%26%20Aperitifs%20%26%20Absinthe">Liqueurs/Modifiers</a>
             <a href="/cocktails">House Cocktails</a>
             <a href="/seasonal">Seasonal Menu</a>                   
