@@ -768,28 +768,26 @@ a:hover {
   text-align: center;
 }
 
-/* Base link styling */
 .nav-links a,
 .nav-links a:visited {
   color: #f5f5f5;
   text-decoration: none;
 }
 
-/* Diamond after EVERY link */
-.nav-links a::after {
-  content: " ◆";
+.nav-links::before {
+  content: "◆";
   color: #b38b00;
-  margin-left: 0.5rem;
+  display: inline-block;
+  padding-right: 0.6rem;
 }
 
-/* Diamond before FIRST link */
-.nav-links a:first-child::before {
-  content: "◆ ";
+.nav-links a:not(:last-child)::after {
+  content: "◆";
   color: #b38b00;
-  margin-right: 0.5rem;
+  display: inline-block;
+  padding: 0 0.6rem;
 }
 
-/* Hover */
 .nav-links a:hover {
   color: #ffcc33;
 }

@@ -4,7 +4,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash
 bp = Blueprint(
     "inventory_admin",
     __name__,
-    url_prefix="/admin/inventory"
+    url_prefix="/inventory"
 )
 
 DB_PATH = "menu.db"   # SAME db as app.py
