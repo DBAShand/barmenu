@@ -3,7 +3,9 @@ import sqlite3
 import sys
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
-
+from admin_inventory import bp as inventory_admin_bp
+app.register_blueprint(inventory_admin_bp)
+app.secret_key = "change-me"
     # ──────────────────────────────
     # Helper for DB access
     # ──────────────────────────────

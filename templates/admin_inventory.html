@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Inventory Admin</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: #111;
+      color: #eee;
+      padding: 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    h1, h2 { margin-top: 30px; }
+    h3 { margin: 14px 0 8px; font-weight: 600; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      margin-bottom: 30px;
+    }
+
+    th, td {
+      border-bottom: 1px solid #333;
+      padding: 8px;
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    th { background: #222; }
+
+    tr.inactive { opacity: 0.55; }
+
+    form.inline {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1.5fr 1fr auto;
+      gap: 6px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .inline-spirits {
+      grid-template-columns: 2fr 1.5fr 2fr 1fr auto;
+    }
+
+    .inline-cocktails {
+      grid-template-columns: 2fr 1.5fr 1.5fr 1fr 1fr auto;
+    }
+
+    input, select {
+      padding: 6px;
+      background: #222;
+      color: #eee;
+      border: 1px solid #444;
+      border-radius: 4px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    button {
+      padding: 6px 10px;
+      background: #c9a227;
+      border: none;
+      cursor: pointer;
+      font-weight: 700;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+
+    button:hover { background: #e0b93d; }
+
+    .section {
+      border: 1px solid #333;
+      padding: 16px;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+
+    .counts {
+      margin: 10px 0 0;
+      color: #9fe;
+      font-weight: 700;
+    }
+
+    .muted {
+      color: #aaa;
+      font-weight: 500;
+    }
+
+    .rowform {
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Inventory Admin</h1>
+<p class="counts">
+  Beer: {{ beer|length }} <span class="muted">|</span>
+  Spirits: {{ spirits|length }} <span class="muted">|</span>
+  Cocktails: {{ cocktails|length }}
+</p>
+
+<!-- ===================== BEER ===================== -->
+<div class="section">
+  <h2>Beer</h2>
+
+  <h3>Add New Beer</h3>
+  <form method="POST" action="/admin/inventory/beer/save" class="inline">
+    <input name="name" placeholder="Name" required>
+    <input name="style" placeholder="Style">
+    <input name="abv" placeholder="ABV">
+    <input name="brewery" placeholder="Brewery">
+    <select name="active">
+      <option value="1">Active</option>
+      <option value="0">Inactive</option>
+    </select>
+    <button type="submit">Add</button>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width:120px;">Status</th>
+        <th>Name</th>
+        <th style="width:180px;">Style</th>
+        <th style="width:90px;">ABV</th>
+        <th style="width:220px;">Brewery</th>
+        <th style="width:90px;">Update</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for b in beer %}
+      <tr class="{{ 'inactive' if b.active == 0 }}">
+        <td>
+          <form method="POST" action="/admin/inventory/beer/save" class="rowform">
+            <input type="hidden" name="id" value="{{ b.id }}">
+            <select name="active">
+              <option value="1" {% if b.active == 1 %}selected{% endif %}>Active</option>
+              <option value="0" {% if b.active == 0 %}selected{% endif %}>Inactive</option>
+            </select>
+        </td>
+        <td><input name="name" value="{{ b.name }}"></td>
+        <td><input name="style" value="{{ b.style }}"></td>
+        <td><input name="abv" value="{{ b.abv }}"></td>
+        <td><input name="brewery" value="{{ b.brewery }}"></td>
+        <td><button type="submit">Save</button></td>
+          </form>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<!-- ===================== SPIRITS ===================== -->
+<div class="section">
+  <h2>Spirits</h2>
+
+  <h3>Add New Spirit</h3>
+  <form method="POST" action="/admin/inventory/spirits/save" class="inline inline-spirits">
+    <input name="name" placeholder="Name" required>
+    <input name="type" placeholder="Type">
+    <input name="origin" placeholder="Origin">
+    <select name="active">
+      <option value="1">Active</option>
+      <option value="0">Inactive</option>
+    </select>
+    <button type="submit">Add</button>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width:120px;">Status</th>
+        <th>Name</th>
+        <th style="width:220px;">Type</th>
+        <th>Origin</th>
+        <th style="width:90px;">Update</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for s in spirits %}
+      <tr class="{{ 'inactive' if s.active == 0 }}">
+        <td>
+          <form method="POST" action="/admin/inventory/spirits/save" class="rowform">
+            <input type="hidden" name="id" value="{{ s.id }}">
+            <select name="active">
+              <option value="1" {% if s.active == 1 %}selected{% endif %}>Active</option>
+              <option value="0" {% if s.active == 0 %}selected{% endif %}>Inactive</option>
+            </select>
+        </td>
+        <td><input name="name" value="{{ s.name }}"></td>
+        <td><input name="type" value="{{ s.type }}"></td>
+        <td><input name="origin" value="{{ s.origin }}"></td>
+        <td><button type="submit">Save</button></td>
+          </form>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<!-- ===================== COCKTAILS ===================== -->
+<div class="section">
+  <h2>Cocktails</h2>
+
+  <h3>Add New Cocktail</h3>
+  <form method="POST" action="/admin/inventory/cocktails/save" class="inline inline-cocktails">
+    <input name="name" placeholder="Name" required>
+    <input name="base" placeholder="Base">
+    <input name="style" placeholder="Style">
+    <input name="abv" placeholder="ABV">
+    <select name="active">
+      <option value="1">Active</option>
+      <option value="0">Inactive</option>
+    </select>
+    <button type="submit">Add</button>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width:120px;">Status</th>
+        <th>Name</th>
+        <th style="width:180px;">Base</th>
+        <th style="width:180px;">Style</th>
+        <th style="width:90px;">ABV</th>
+        <th style="width:90px;">Update</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for c in cocktails %}
+      <tr class="{{ 'inactive' if c.active == 0 }}">
+        <td>
+          <form method="POST" action="/admin/inventory/cocktails/save" class="rowform">
+            <input type="hidden" name="id" value="{{ c.id }}">
+            <select name="active">
+              <option value="1" {% if c.active == 1 %}selected{% endif %}>Active</option>
+              <option value="0" {% if c.active == 0 %}selected{% endif %}>Inactive</option>
+            </select>
+        </td>
+        <td><input name="name" value="{{ c.name }}"></td>
+        <td><input name="base" value="{{ c.base }}"></td>
+        <td><input name="style" value="{{ c.style }}"></td>
+        <td><input name="abv" value="{{ c.abv }}"></td>
+        <td><button type="submit">Save</button></td>
+          </form>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>
