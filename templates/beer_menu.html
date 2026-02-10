@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MizzouGlenn’s Tavern — Beer On Tap</title>
+
+  <!-- Use your existing theme -->
+  <link rel="stylesheet" href="/static/chalk.css">
+  <link rel="stylesheet" href="/static/mizzou-vintage.css">
+  <link rel="stylesheet" href="/static/beer.css">
+
+  {% if rotate %}
+  <!-- Rotate only if more than 1 page -->
+  <meta http-equiv="refresh" content="12;url=/beer/menu/{{ next_page }}">
+  {% endif %}
+
+  <style>
+    /* Minimal glue to ensure layout matches the screenshot */
+    body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+    }
+
+    .page-wrap {
+      width: 100%;
+      min-height: 100vh;
+      padding: 18px 26px 16px;
+      box-sizing: border-box;
+    }
+
+    .section-title {
+      text-align: center;
+      font-weight: 900;
+      letter-spacing: .06em;
+      margin: 18px 0 10px;
+      font-size: 34px;
+    }
+
+    .gold-rule {
+      height: 2px;
+      background: #b38b00;
+      opacity: .95;
+      margin: 10px 0 14px;
+    }
+
+    .beer-list {
+      margin-top: 6px;
+    }
+
+    .beer-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 18px;
+      padding: 9px 0;
+      border-bottom: 1px solid rgba(179, 139, 0, 0.35);
+    }
+
+    .beer-left {
+      font-size: 22px;
+      font-weight: 700;
+      color: #f5f5f5;
+      line-height: 1.15;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    .beer-right {
+      font-size: 16px;
+      font-weight: 700;
+      color: #b38b00;
+      text-align: right;
+      flex: 0 0 420px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      opacity: .95;
+    }
+
+    .footer {
+      text-align: center;
+      color: rgba(245,245,245,0.75);
+      font-style: italic;
+      margin-top: 16px;
+      font-size: 14px;
+    }
+
+    .page-meta {
+      text-align: right;
+      color: rgba(245,245,245,0.55);
+      font-size: 12px;
+      margin-top: 6px;
+    }
+
+    @media (max-width: 1100px) {
+      .beer-right { flex-basis: 320px; }
+      .beer-left { font-size: 20px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page-wrap">
+
+    <!-- Header (matches your existing MizzouGlenn’s look) -->
+    <header class="menu-header">
+      <div class="mizzou-logo split">
+        <div class="logo-left">
+          <span class="tile"><span>M</span></span>
+          <span class="tile"><span>I</span></span>
+          <span class="tile"><span>Z</span></span>
+          <span class="tile"><span>Z</span></span>
+          <span class="tile"><span>O</span></span>
+          <span class="tile"><span>U</span></span>
+        </div>
+
+        <div class="logo-right">
+          <span class="tile"><span>G</span></span>
+          <span class="tile"><span>L</span></span>
+          <span class="tile"><span>E</span></span>
+          <span class="tile"><span>N</span></span>
+          <span class="tile"><span>N</span></span>
+          <span class="tile"><span>S</span></span>
+        </div>
+      </div>
+
+      <div class="brand-name">Tavern</div>
+    </header>
+
+    <div class="section-title">BEER ON TAP</div>
+    <div class="gold-rule"></div>
+
+    <div class="beer-list">
+      {% for r in rows %}
+      <div class="beer-row">
+        <div class="beer-left">
+          {{ r["name"] }}
+          {% if r["abv"] is not none %}
+            ({{ "%.1f"|format(r["abv"]) }}%)
+          {% endif %}
+        </div>
+
+        <div class="beer-right">
+          {# Right side: Brewery • Style #}
+          {% set brewery = r["brewery"] if "brewery" in r.keys() else "" %}
+          {% set style = r["style"] if "style" in r.keys() else "" %}
+
+          {% if brewery and style %}
+            {{ brewery }} &nbsp;•&nbsp; {{ style }}
+          {% elif brewery %}
+            {{ brewery }}
+          {% elif style %}
+            {{ style }}
+          {% else %}
+            &nbsp;
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="page-meta">Page {{ page }} of {{ total_pages }}</div>
+
+    <div class="footer">
+      MizzouGlenn’s Tavern — Where Every Night’s a Home Game
+    </div>
+
+  </div>
+</body>
+</html>

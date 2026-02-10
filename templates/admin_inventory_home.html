@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Inventory Admin</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#111;color:#eee;padding:30px;max-width:900px;margin:auto}
+    h1{margin:0 0 10px}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px}
+    a.card{display:block;padding:22px;border:1px solid #333;border-radius:12px;background:#1a1a1a;color:#eee;text-decoration:none}
+    a.card:hover{border-color:#c9a227}
+    .title{font-size:20px;font-weight:800;margin-bottom:6px}
+    .sub{color:#aaa}
+  </style>
+</head>
+<body>
+  <h1>Inventory Admin</h1>
+  <div class="grid">
+    <a class="card" href="/inventory/beer">
+      <div class="title">Beer</div>
+      <div class="sub">Add / edit beers</div>
+    </a>
+    <a class="card" href="/inventory/spirits">
+      <div class="title">Spirits</div>
+      <div class="sub">Add / edit spirits</div>
+    </a>
+    <a class="card" href="/inventory/cocktails">
+      <div class="title">Cocktails</div>
+      <div class="sub">Add / edit cocktails</div>
+    </a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cocktails Inventory</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#111;color:#eee;padding:20px;max-width:1200px;margin:auto}
+    a{color:#c9a227;text-decoration:none}
+    a:hover{text-decoration:underline}
+    .top{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+    table{width:100%;border-collapse:collapse;margin-top:12px}
+    th,td{border-bottom:1px solid #333;padding:8px;text-align:left;vertical-align:middle}
+    th{background:#222}
+    tr.inactive{opacity:.55}
+    input,select{padding:6px;background:#222;color:#eee;border:1px solid #444;border-radius:4px;width:100%;box-sizing:border-box}
+    button{padding:6px 10px;background:#c9a227;border:none;cursor:pointer;font-weight:700;border-radius:4px;white-space:nowrap}
+    button:hover{background:#e0b93d}
+    form.add{display:grid;grid-template-columns:2fr 1.2fr 1.6fr .7fr .9fr auto;gap:6px;align-items:center;margin-top:10px}
+    .rowform{margin:0}
+  </style>
+</head>
+<body>
+
+  <div class="top">
+    <h1>Cocktails</h1>
+    <div>
+      <a href="/inventory/">Back</a>
+    </div>
+  </div>
+
+  <form method="POST" action="/inventory/cocktails/save" class="add">
+    <input name="name" placeholder="Name" required>
+    <input name="base" placeholder="Base">
+    <input name="style" placeholder="Style">
+    <input name="abv" placeholder="ABV">
+    <select name="active">
+      <option value="1">Active</option>
+      <option value="0">Inactive</option>
+    </select>
+    <button type="submit">Add</button>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width:120px;">Status</th>
+        <th>Name</th>
+        <th style="width:180px;">Base</th>
+        <th style="width:220px;">Style</th>
+        <th style="width:90px;">ABV</th>
+        <th style="width:90px;">Save</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for c in cocktails %}
+      <tr class="{{ 'inactive' if c.active == 0 }}">
+        <td>
+          <form method="POST" action="/inventory/cocktails/save" class="rowform">
+            <input type="hidden" name="id" value="{{ c.id }}">
+            <select name="active">
+              <option value="1" {% if c.active == 1 %}selected{% endif %}>Active</option>
+              <option value="0" {% if c.active == 0 %}selected{% endif %}>Inactive</option>
+            </select>
+        </td>
+        <td><input name="name" value="{{ c.name }}"></td>
+        <td><input name="base" value="{{ c.base }}"></td>
+        <td><input name="style" value="{{ c.style }}"></td>
+        <td><input name="abv" value="{{ c.abv }}"></td>
+        <td><button type="submit">Save</button></td>
+          </form>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</body>
+</html>
