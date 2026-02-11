@@ -37,6 +37,9 @@
   </div>
 
   <script>
+  const PAGE_SIZE = 10;
+  const ROTATE_MS = 12000;
+
   const groups = {
     "Bourbon": ["bourbon"],
     "Rye": ["rye"],
@@ -47,51 +50,89 @@
     "Rum": ["rum"],
     "Liqueurs & Cordials & Aperitifs & Absinthe": [
       "liqueur", "cream liqueur", "orange liqueur", "herbal liqueur",
-      "elderflower liqueur","aperitif", "absinthe"
+      "elderflower liqueur", "aperitif", "absinthe"
     ],
     "Tequila / Mezcal": ["tequila", "mezcal"],
   };
 
   const params = new URLSearchParams(window.location.search);
   const groupParam = params.get("group") || "Bourbon";
-  let spiritsData = [];
 
-  async function loadSpirits() {
-    try {
-      const res = await fetch('/api/spirits');
-      spiritsData = await res.json();
-      showGroup(groupParam);
-    } catch (err) {
-      document.getElementById('group-name').textContent = 'Error loading spirits';
-    }
+  let spiritsData = [];
+  let pages = [];
+  let pageIndex = 0;
+  let rotateTimer = null;
+
+  function chunk(items, size) {
+    const out = [];
+    for (let i = 0; i < items.length; i += size) out.push(items.slice(i, i + size));
+    return out;
   }
 
-  function showGroup(groupName) {
+  function render(items) {
+    const list = document.getElementById('spirits');
+    list.innerHTML = items.map(s =>
+      `<li>
+         <span class="drink">${s.name ?? ""}</span>
+         <span class="meta">${s.origin ?? ""}</span>
+       </li>`
+    ).join('');
+  }
+
+  function buildGroupPages(groupName) {
     const types = groups[groupName];
     document.getElementById('group-name').textContent = groupName;
 
     if (!types) {
       document.getElementById('spirits').innerHTML = `<li>Unknown group</li>`;
+      pages = [];
       return;
     }
 
-    const filtered = spiritsData.filter(s =>
-      types.some(t => s.type.toLowerCase().includes(t))
-    );
+    const filtered = spiritsData
+      .filter(s => {
+        const t = (s.type ?? "").toLowerCase();
+        return types.some(x => t.includes(x));
+      })
+      .sort((a, b) => (a.name ?? "").localeCompare(b.name ?? ""));
 
-    filtered.sort((a, b) => a.name.localeCompare(b.name));
+    pages = chunk(filtered, PAGE_SIZE);
+    pageIndex = 0;
 
-    const list = document.getElementById('spirits');
-    list.innerHTML = filtered.map(s =>
-      `<li>
-         <span class="drink">${s.name}</span>
-         <span class="meta">${s.origin || ''}</span>
-       </li>`
-    ).join('');
+    if (rotateTimer) clearInterval(rotateTimer);
+
+    if (pages.length === 0) {
+      document.getElementById('spirits').innerHTML = `<li>No spirits in this group</li>`;
+      return;
+    }
+
+    render(pages[0]);
+
+    if (pages.length > 1) {
+      rotateTimer = setInterval(() => {
+        pageIndex = (pageIndex + 1) % pages.length;
+        render(pages[pageIndex]);
+      }, ROTATE_MS);
+    }
   }
 
-  loadSpirits();
-  </script>
+  async function loadSpiritsOnce() {
+    try {
+      const res = await fetch('/api/spirits', { cache: "no-store" });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+      spiritsData = await res.json();
+      buildGroupPages(groupParam);
+
+    } catch (err) {
+      document.getElementById('group-name').textContent = 'Error loading spirits';
+      document.getElementById('spirits').innerHTML = `<li>Could not load spirits</li>`;
+      console.error(err);
+    }
+  }
+
+  loadSpiritsOnce();
+</script>
   <script>
     if (window.self !== window.top) {
       document.body.classList.add('display');

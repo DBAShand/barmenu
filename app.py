@@ -79,6 +79,10 @@ def restaurant_page():
 def display_page():
     return render_template("display.html")
 
+@app.route("/display/beer")
+def beer_display():
+    return render_template("beer_display.html")
+
 # ──────────────────────────────
 # Rotating Beer Menu (ONLY definition for /beer/menu)
 # ──────────────────────────────
@@ -94,7 +98,7 @@ def beer_menu(page: int = 1):
 
     total_beers = cur.execute("SELECT COUNT(*) as cnt FROM beer WHERE active=1").fetchone()["cnt"]
     rows = cur.execute(
-        "SELECT name, style, abv, brewery FROM beer WHERE active=1 ORDER BY name LIMIT 5 OFFSET 5",
+        "SELECT name, style, abv, brewery FROM beer WHERE active=1 ORDER BY name LIMIT ? OFFSET ?",
         (per_page, offset),
     ).fetchall()
     conn.close()

@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>🍸 Cocktails – MizzouGlenn’s Tavern</title>
+<meta charset="UTF-8">
+<title>🍺 Beer on Tap – MizzouGlenn’s Tavern</title>
 <link rel="stylesheet" href="/static/main.css">
 <link rel="stylesheet" href="/static/chalk.css">
 <link rel="stylesheet" href="/static/mizzou-vintage.css">
-<link rel="stylesheet" href="/static/cocktails.css">
+<link rel="stylesheet" href="/static/beer.css">
 </head>
-<body class = "cocktails">
+<body class="beer">
   <header class="menu-header">
-   <div class="mizzou-logo split">
+<div class="mizzou-logo split">
   <div class="logo-left">
     <span class="tile"><span>M</span></span>
     <span class="tile"><span>I</span></span>
@@ -33,37 +33,38 @@
   </header>
 
   <div class="board">
-    <h1 class="title">Cocktails</h1>
-    <ul id="cocktails"></ul>
+    <h1 class="title">Beer on Tap</h1>
+    <ul id="beer"></ul>
     <div class="footer">MizzouGlenn’s Tavern — Where Every Night’s a Home Game</div>
   </div>
 
-  <script src="/static/rotate.js"></script>
 <script>
-  MenuRotate.startRotation({
-    url: "/api/cocktails",
-    listId: "cocktails",
-    pageSize: 10,
-    rotateMs: 12000,
-    emptyHtml: "<li>No active cocktails</li>",
-    errorHtml: "<li>Error loading cocktails</li>",
-    renderItem: (c) => `
-      <li>
-        <span class="drink">
-          ${c.name ?? ""}${c.abv ? ` (${Number(c.abv).toFixed(1)}%)` : ""}
-        </span>
-        <span class="meta">${c.base ?? ""}${c.style ? " • " + c.style : ""}</span>
-      </li>
-    `
-  });
+async function load(){
+  try {
+    const res = await fetch('/api/beer');
+    const beers = await res.json();
+    document.getElementById('beer').innerHTML = beers.map(b =>
+      `<li>
+         <span class="drink">
+           ${b.name}${b.abv ? ` (${b.abv.toFixed(1)}%)` : ''}
+         </span>
+         <span class="meta">
+           ${b.brewery ? b.brewery + ' • ' : ''}${b.style}
+         </span>
+       </li>`
+    ).join('');
+  } catch(err) {
+    document.getElementById('beer').innerHTML = "<li>Error loading beer list</li>";
+  }
+}
+load();
 </script>
-
-  <script>
-    // Detect if loaded inside display.html (kiosk mode)
-    if (window.self !== window.top) {
-      document.body.classList.add('display');
-      document.documentElement.classList.add('display');
-    }
-  </script>
+<script>
+  // Detect if loaded inside display.html
+  if (window.self !== window.top) {
+    document.body.classList.add('display');
+    document.documentElement.classList.add('display');
+  }
+</script>
 </body>
 </html>
