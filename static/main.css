@@ -791,3 +791,21 @@ a:hover {
 .nav-links a:hover {
   color: #ffcc33;
 }
+
+.back-home {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin: 1.5rem auto 2rem;
+  text-decoration: none;
+}
+
+.back-home:hover .tile {
+  filter: brightness(1.08);
+}
+
+html.display .back-home,
+body.display .back-home {
+  display: none !important;
+}
