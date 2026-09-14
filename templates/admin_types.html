@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Type lookup</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#111;color:#eee;padding:20px;max-width:1100px;margin:auto}
+    a{color:#c9a227;text-decoration:none}
+    a:hover{text-decoration:underline}
+    .top{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+    .muted{color:#aaa}
+    .flashes{background:#3a2a00;border:1px solid #c9a227;padding:10px 12px;border-radius:8px;margin:12px 0}
+    .box{border:1px solid #333;border-radius:10px;padding:14px;margin:18px 0;background:#1a1a1a}
+    table{width:100%;border-collapse:collapse;margin-top:12px}
+    th,td{border-bottom:1px solid #333;padding:8px;text-align:left;vertical-align:middle}
+    th{background:#222}
+    input{padding:6px;background:#222;color:#eee;border:1px solid #444;border-radius:4px;width:100%;box-sizing:border-box}
+    button{padding:6px 10px;background:#c9a227;border:none;cursor:pointer;font-weight:700;border-radius:4px;white-space:nowrap}
+    button.danger{background:#8a2b2b;color:#fff}
+    button:hover{filter:brightness(1.08)}
+    form.add{display:grid;grid-template-columns:1fr auto;gap:6px;margin-top:8px}
+    form.row{display:grid;grid-template-columns:1fr auto auto;gap:6px;margin:0}
+  </style>
+</head>
+<body>
+  <div class="top">
+    <h1>Types</h1>
+    <a href="/inventory/">Back</a>
+  </div>
+  <p class="muted">This is the lookup list used in the dropdowns. Rename <code>liqueur</code> to <code>Liqueur</code> (or <code>Cream Liqueur</code>) to fix mixed case — bottles and drinks that used the old spelling are updated too.</p>
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div class="flashes">{% for m in messages %}<div>{{ m }}</div>{% endfor %}</div>
+    {% endif %}
+  {% endwith %}
+
+  {% for g in groups %}
+  <div class="box">
+    <h2>{{ g.label }}</h2>
+    <form method="POST" action="{{ url_for('inventory_admin.types_add') }}" class="add">
+      <input type="hidden" name="kind" value="{{ g.kind }}">
+      <input name="name" placeholder="New type name" required>
+      <button type="submit">Add</button>
+    </form>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th style="width:90px;">In use</th>
+          <th style="width:90px;">Save</th>
+          <th style="width:90px;">Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for t in g.rows %}
+        <tr>
+          <td>
+            <form method="POST" action="{{ url_for('inventory_admin.types_save') }}" id="save-{{ g.kind }}-{{ loop.index }}">
+              <input type="hidden" name="kind" value="{{ g.kind }}">
+              <input type="hidden" name="old" value="{{ t.name }}">
+              <input name="name" value="{{ t.name }}" required>
+            </form>
+          </td>
+          <td>{{ t.used }}</td>
+          <td><button type="submit" form="save-{{ g.kind }}-{{ loop.index }}">Save</button></td>
+          <td>
+            <form method="POST" action="{{ url_for('inventory_admin.types_delete') }}" onsubmit="return confirm('Delete type {{ t.name }}?')">
+              <input type="hidden" name="kind" value="{{ g.kind }}">
+              <input type="hidden" name="name" value="{{ t.name }}">
+              <button type="submit" class="danger">Delete</button>
+            </form>
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="4" class="muted">No types yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endfor %}
+</body>
+</html>

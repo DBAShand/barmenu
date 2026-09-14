@@ -8,6 +8,9 @@
     a{color:#c9a227;text-decoration:none}
     a:hover{text-decoration:underline}
     .top{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+    .muted{color:#aaa}
+    .empty{color:#ccc;margin:24px 0;font-size:18px}
+    .box{border:1px solid #333;border-radius:10px;padding:14px;margin:14px 0;background:#1a1a1a}
     table{width:100%;border-collapse:collapse;margin-top:12px}
     th,td{border-bottom:1px solid #333;padding:8px;text-align:left;vertical-align:middle}
     th{background:#222}
@@ -15,8 +18,13 @@
     input,select{padding:6px;background:#222;color:#eee;border:1px solid #444;border-radius:4px;width:100%;box-sizing:border-box}
     button{padding:6px 10px;background:#c9a227;border:none;cursor:pointer;font-weight:700;border-radius:4px;white-space:nowrap}
     button:hover{background:#e0b93d}
+    form.search{display:grid;grid-template-columns:2fr 1.4fr auto;gap:6px;align-items:center;margin-top:10px}
     form.add{display:grid;grid-template-columns:2fr 1.2fr 1.6fr .7fr .9fr auto;gap:6px;align-items:center;margin-top:10px}
+    form.inline{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
     .rowform{margin:0}
+    .flashes{background:#3a2a00;border:1px solid #c9a227;padding:10px 12px;border-radius:8px;margin:12px 0}
+    .bulk{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:12px 0}
+    button.danger{background:#8a2b2b;color:#fff}
   </style>
 </head>
 <body>
@@ -27,35 +35,79 @@
       <a href="/inventory/">Back</a>
     </div>
   </div>
+  <p class="muted">Blank search or All bases/styles lists everything. Narrow with a drink name, base, or style.</p>
 
-  <form method="POST" action="/inventory/cocktails/save" class="add">
-    <input name="name" placeholder="Name" required>
-    <input name="base" placeholder="Base">
-    <input name="style" placeholder="Style">
-    <input name="abv" placeholder="ABV">
-    <select name="active">
-      <option value="1">Active</option>
-      <option value="0">Inactive</option>
+  <form method="GET" class="search">
+    <input name="q" value="{{ q }}" placeholder="Leave blank for all, or a name / base / style" autofocus>
+    <select name="type">
+      <option value="">All bases / styles</option>
+      {% for t in types %}
+        <option value="{{ t }}" {% if type_filter == t %}selected{% endif %}>{{ t }}</option>
+      {% endfor %}
     </select>
-    <button type="submit">Add</button>
+    <button type="submit">Search</button>
   </form>
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div class="flashes">{% for m in messages %}<div>{{ m }}</div>{% endfor %}</div>
+    {% endif %}
+  {% endwith %}
 
+  {% if cocktails|length == 0 %}
+    <p class="empty">Nope, that does not exist.</p>
+
+    <div class="box">
+      <h2>Add the cocktail</h2>
+      <form method="POST" action="{{ url_for('inventory_admin.cocktails_save') }}" class="add">
+        <input name="name" value="{{ q }}" placeholder="Cocktail name" required>
+        <input name="base" list="cocktail-types" value="{{ type_filter or q }}" placeholder="Base (gin, bourbon…)">
+        <input name="style" list="cocktail-types" placeholder="Style (citrus, stirred…)">
+        <input name="abv" placeholder="ABV">
+        <select name="active">
+          <option value="1">Active</option>
+          <option value="0">Inactive</option>
+        </select>
+        <button type="submit">Add cocktail</button>
+      </form>
+    </div>
+
+    {% if q and not type_exists %}
+    <div class="box">
+      <h2>Add the type</h2>
+      <p class="muted">No cocktails and no base/style named “{{ q }}”. Save it so it shows in the list, then add drinks under it.</p>
+      <form method="POST" action="{{ url_for('inventory_admin.cocktails_type_add') }}" class="inline">
+        <input name="type" value="{{ q }}" required>
+        <button type="submit">Add type</button>
+      </form>
+    </div>
+    {% endif %}
+  {% else %}
+  <form id="bulk-form" method="POST" action="{{ url_for('inventory_admin.cocktails_bulk') }}" class="bulk">
+    <input type="hidden" name="q" value="{{ q }}">
+    <input type="hidden" name="type" value="{{ type_filter }}">
+    <button type="submit" name="action" value="inactive">Set inactive</button>
+    <button type="submit" name="action" value="active">Set active</button>
+    <button type="submit" name="action" value="delete" class="danger" onclick="return confirm('Delete the selected cocktails?')">Delete selected</button>
+  </form>
   <table>
     <thead>
       <tr>
+        <th style="width:40px;"><input type="checkbox" onclick="document.querySelectorAll('#bulk-form ~ table input[name=ids]').forEach(c => c.checked = this.checked)"></th>
         <th style="width:120px;">Status</th>
         <th>Name</th>
         <th style="width:180px;">Base</th>
         <th style="width:220px;">Style</th>
         <th style="width:90px;">ABV</th>
         <th style="width:90px;">Save</th>
+        <th style="width:90px;">Delete</th>
       </tr>
     </thead>
     <tbody>
       {% for c in cocktails %}
       <tr class="{{ 'inactive' if c.active == 0 }}">
+        <td><input type="checkbox" name="ids" value="{{ c.id }}" form="bulk-form"></td>
         <td>
-          <form method="POST" action="/inventory/cocktails/save" class="rowform">
+          <form method="POST" action="{{ url_for('inventory_admin.cocktails_save') }}" class="rowform">
             <input type="hidden" name="id" value="{{ c.id }}">
             <select name="active">
               <option value="1" {% if c.active == 1 %}selected{% endif %}>Active</option>
@@ -63,15 +115,30 @@
             </select>
         </td>
         <td><input name="name" value="{{ c.name }}"></td>
-        <td><input name="base" value="{{ c.base }}"></td>
-        <td><input name="style" value="{{ c.style }}"></td>
+        <td><input name="base" list="cocktail-types" value="{{ c.base }}"></td>
+        <td><input name="style" list="cocktail-types" value="{{ c.style }}"></td>
         <td><input name="abv" value="{{ c.abv }}"></td>
         <td><button type="submit">Save</button></td>
           </form>
+        <td>
+          <form method="POST" action="{{ url_for('inventory_admin.cocktails_delete') }}" class="rowform" onsubmit="return confirm('Delete this cocktail?')">
+            <input type="hidden" name="id" value="{{ c.id }}">
+            <input type="hidden" name="q" value="{{ q }}">
+            <input type="hidden" name="type" value="{{ type_filter }}">
+            <button type="submit" style="background:#8a2b2b;color:#fff">Delete</button>
+          </form>
+        </td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
+  {% endif %}
+
+  <datalist id="cocktail-types">
+    {% for t in types %}
+      <option value="{{ t }}"></option>
+    {% endfor %}
+  </datalist>
 
 </body>
 </html>
